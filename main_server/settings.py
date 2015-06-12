@@ -6,7 +6,7 @@ XML = False
 # VERSIONING = True
 
 try:
-    MONGO_HOST= os.environ['COMUNIDAD_DB_1_PORT_27017_TCP_ADDR']
+    MONGO_HOST= os.environ['MONGODOCKERCOMPOSE_DB_1_PORT_27017_TCP_ADDR']
 except:
     print ("Error")
 
