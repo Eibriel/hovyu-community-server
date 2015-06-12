@@ -51,6 +51,9 @@ def post_GET_stores(request, payload):
     points_of_interest = app.data.driver.db['points_of_interest']
     items = json.loads(payload.data.decode("utf-8"))
 
+    if '_items' not in items:
+        items = {'_items': [items]}
+
     if '_items' in items:
         high_items = []
         common_items = []
@@ -76,6 +79,9 @@ def post_GET_stores(request, payload):
                 item['total_score'] = item['score']['sum'] / item['score']['count']
             else:
                 item['total_score'] = 0
+            # Fix exact_location
+            if 'exact_location' not in item:
+                item['exact_location'] = False
         
         for item in items['_items']:
             if item['highlight']:

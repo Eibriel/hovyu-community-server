@@ -41,6 +41,10 @@ stores_schema = { # Required
             }
         }
     },
+    'exact_location': {
+        'type': 'boolean',
+        'default': False
+    },
     'location': {
         'type': 'point',
         'nullable': True,
@@ -147,6 +151,47 @@ points_of_interest_schema = {
     }
 }
 
+payments_schema = {
+    'payment_method': {
+        'type': 'string',
+        'required': True,
+        'allowed': ['local_bank', 'pagomiscuentas', 'bitcoin', 'bonus'],
+    },
+    'description': {
+        'type': 'string',
+        'required': True
+    },
+    'store_id': {
+        'type': 'objectid',
+        'required': True
+    },
+    'currency': {
+        'type': 'string',
+        'required': True,
+        'allowed': ['ar', 'usd', 'euro', 'bitcoin'],
+    },
+    'amount': {
+        'type': 'integer',
+        'required':True
+    },
+    'day_cost': {
+        'type': 'integer',
+        'required': True
+    },
+    'completed': {
+        'type': 'boolean',
+        'required': True
+    },
+    'refunded': {
+        'type': 'boolean',
+        'required': True
+    },
+    'refund_description': {
+        'type': 'string',
+        'required': True
+    }
+}
+
 stores = {
     # 'soft_delete': True,
     'versioning': True,
@@ -161,8 +206,13 @@ points_of_interest = {
     'schema': points_of_interest_schema
 }
 
+payments = {
+    'schema': payments_schema
+}
+
 DOMAIN = {
     'stores': stores,
     'products': products,
     'points_of_interest': points_of_interest
+    'payments': payments
 }
