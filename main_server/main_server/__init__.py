@@ -19,14 +19,14 @@ def pre_GET_stores(request, lookup):
         lookup_ = {}
         products_search = request.args['products']
         products = []
-        for product_search in products_search:
+        """for product_search in products_search:
             lookup_['_id'] = ObjectId(products_search)
             #lookup_['name'] = {"$regex": product_search}
             product_db = product.find(lookup_)
             if product_db:
                 for p in product_db:
-                    products.append(ObjectId(p['_id']))
-        lookup["products"] = {'$in': products}
+                    products.append(ObjectId(p['_id']))"""
+        lookup["products"] = {'$in': [ObjectId(products_search)]}
     
     location_lookup = {'location': {"$near":
                            {"$geometry":
