@@ -8,4 +8,4 @@ web:
 main:
     build: ./widu-community-server
     external_links:
-     - db
+     - mongodockercompose_db_1
