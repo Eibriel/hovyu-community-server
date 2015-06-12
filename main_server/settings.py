@@ -155,7 +155,7 @@ payments_schema = {
     'payment_method': {
         'type': 'string',
         'required': True,
-        'allowed': ['local_bank', 'pagomiscuentas', 'bitcoin', 'bonus'],
+        'allowed': ['local_bank', 'pagomiscuentas', 'bitcoin', 'bonus']
     },
     'description': {
         'type': 'string',
@@ -168,7 +168,7 @@ payments_schema = {
     'currency': {
         'type': 'string',
         'required': True,
-        'allowed': ['ar', 'usd', 'euro', 'bitcoin'],
+        'allowed': ['ar', 'usd', 'euro', 'bitcoin']
     },
     'amount': {
         'type': 'integer',
@@ -213,6 +213,6 @@ payments = {
 DOMAIN = {
     'stores': stores,
     'products': products,
-    'points_of_interest': points_of_interest
+    'points_of_interest': points_of_interest,
     'payments': payments
 }
