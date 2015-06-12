@@ -1,6 +1,3 @@
-db:
-    image: mongo:latest
-
 web:
     build: ./widu-community-web
     ports:
@@ -10,5 +7,5 @@ web:
      
 main:
     build: ./widu-community-server
-    links:
+    external_links:
      - db
