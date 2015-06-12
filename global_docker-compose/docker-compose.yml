@@ -1,16 +1,14 @@
+db:
+    image: mongo:latest
+
 web:
     build: ./widu-community-web
     ports:
-     - "8000:80"
+     - "80:80"
     links:
      - main
      
 main:
     build: ./widu-community-server
-    ports:
-     - "8001:80"
     links:
      - db
-
-db:
-    image: mongo:latest

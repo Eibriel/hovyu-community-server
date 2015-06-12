@@ -2,7 +2,7 @@ import os
 
 RESOURCE_METHODS = ['GET', 'POST', 'DELETE']
 ITEM_METHODS = ['GET', 'PUT', 'DELETE', 'PATCH']
-
+XML = False
 # VERSIONING = True
 
 try:
@@ -161,6 +161,12 @@ payments_schema = {
         'type': 'string',
         'required': True
     },
+    'start_date': {
+        'type': 'date',
+    },
+    'end_date': {
+        'type': 'date',
+    },
     'store_id': {
         'type': 'objectid',
         'required': True
@@ -210,9 +216,16 @@ payments = {
     'schema': payments_schema
 }
 
+payment_stats = {
+    #'schema': {},
+    'resource_methods': ['GET'],
+    'item_methods': []
+}
+
 DOMAIN = {
     'stores': stores,
     'products': products,
     'points_of_interest': points_of_interest,
-    'payments': payments
+    'payments': payments,
+    'payment_stats': payment_stats
 }

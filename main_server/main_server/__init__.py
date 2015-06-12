@@ -103,6 +103,23 @@ def pre_GET_points_of_interest(request, lookup):
     if 'find_places' in request.args:
         lookup["name"] = {"$regex": request.args['find_places']}
 
+def post_GET_payment_stats(request, payload):
+    payments = app.data.driver.db['payments']
+    #print (payload.data)
+    items = json.loads(payload.data.decode("utf-8"))
+    lookup = {
+        '$group': {
+            '_id': None,
+            'total': {'$sum': '$amount'}
+        }
+    }
+    payments_db = payments.aggregate([lookup])
+    total = payments_db['result'][0]['total']
+    
+    items['_items'] = [{
+        'total': total
+    }]
+    payload.set_data(json.dumps(items).encode('utf-8'))
 
 app = Eve()
 
@@ -113,4 +130,5 @@ app.on_post_GET_stores += post_GET_stores
 app.on_pre_GET_products += pre_GET_products
 app.on_pre_GET_points_of_interest += pre_GET_points_of_interest
 
+app.on_post_GET_payment_stats += post_GET_payment_stats
 
