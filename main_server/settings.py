@@ -43,12 +43,13 @@ stores_schema = { # Required
     },
     'exact_location': {
         'type': 'boolean',
+        'required': True,
         'default': False
     },
     'location': {
         'type': 'point',
-        'nullable': True,
-        'default': None
+        'required': True,
+        '2dsphere': True
     },
     'highlight': {
         'type': 'boolean',
@@ -147,7 +148,8 @@ points_of_interest_schema = {
     },
     'location': {
         'type': 'point',
-        'required': True
+        'required': True,
+        '2dsphere': True
     }
 }
 
