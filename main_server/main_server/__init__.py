@@ -2,6 +2,8 @@ import json
 from eve import Eve
 from bson import ObjectId
 
+Eve.debug = True
+
 def pre_GET_stores(request, lookup):
     if 'products' not in request.args:
         return
@@ -121,8 +123,20 @@ def post_GET_payment_stats(request, payload):
     }]
     payload.set_data(json.dumps(items).encode('utf-8'))
 
+
+def pre_GET(resource, request, lookup):
+    points_of_interest = app.data.driver.db['points_of_interest']
+    stores = app.data.driver.db['stores']
+    #print(dir (app.data.driver.db))
+    #print("Mongo version: {0}".format(stores.version()))
+    # pymongo.GEOSPHERE
+    points_of_interest.create_index([("location", "2dsphere")])
+    stores.create_index([("location", "2dsphere")])
+
+
 app = Eve()
 
+app.on_pre_GET += pre_GET
 
 app.on_pre_GET_stores += pre_GET_stores
 app.on_post_GET_stores += post_GET_stores
