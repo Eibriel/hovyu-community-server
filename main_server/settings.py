@@ -48,8 +48,30 @@ stores_schema = { # Required
     },
     'location': {
         'type': 'point',
+        'required': True
+    },
+    'place': {
+        'type': 'dict',
         'required': True,
-        '2dsphere': True
+        'nullable': True,
+        'schema': {
+            'place_id': {
+                'type': 'objectid',
+                'required': True
+            },
+            'osm_id': {
+                'type': 'integer',
+                'required': True
+            },
+            'full_name': {
+                'type': 'string',
+                'required': True
+            },
+            'location': {
+                'type': 'point',
+                'required': True
+            }
+        }
     },
     'highlight': {
         'type': 'boolean',
@@ -148,8 +170,7 @@ points_of_interest_schema = {
     },
     'location': {
         'type': 'point',
-        'required': True,
-        '2dsphere': True
+        'required': True
     }
 }
 
@@ -200,6 +221,73 @@ payments_schema = {
     }
 }
 
+places_schema = {
+    'osm_id': {
+        'type': 'integer',
+        'required': True,
+        'unique': True
+    },
+    'name': {
+        'type': 'string',
+        'required': True
+    },
+    'type': {
+        'type': 'string',
+        'required': True,
+    },
+    'location': {
+        'type': 'point',
+        'required': True
+    },
+    'is_in': {
+        'type': 'dict',
+        'required': True,
+        'schema': {
+            'country': {
+                'type': 'string',
+                'required': True,
+                'nullable': True
+            },
+            'state': {
+                'type': 'string',
+                'required': True,
+                'nullable': True
+            },
+            'city': {
+                'type': 'string',
+                'required': True,
+                'nullable': True
+            }
+        }
+    },
+    'near_place': {
+        'type': 'dict',
+        'required': True,
+        'schema': {
+            'name': {
+                'type': 'string',
+                'required': True,
+                'nullable': True
+            },
+            'country': {
+                'type': 'string',
+                'required': True,
+                'nullable': True
+            },
+            'state': {
+                'type': 'string',
+                'required': True,
+                'nullable': True
+            },
+            'city': {
+                'type': 'string',
+                'required': True,
+                'nullable': True
+            }
+        }
+    }
+}
+
 stores = {
     # 'soft_delete': True,
     'versioning': True,
@@ -224,10 +312,15 @@ payment_stats = {
     'item_methods': []
 }
 
+places = {
+    'schema': places_schema
+}
+
 DOMAIN = {
     'stores': stores,
     'products': products,
     'points_of_interest': points_of_interest,
     'payments': payments,
-    'payment_stats': payment_stats
+    'payment_stats': payment_stats,
+    'places': places
 }
