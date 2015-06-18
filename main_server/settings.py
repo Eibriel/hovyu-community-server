@@ -160,6 +160,14 @@ products_schema = {
     'name': {
         'type': 'string',
         'required': True
+    },
+    'description': {
+        'type': 'string',
+        'required': True
+    },
+    'wiktionary': {
+        'type': 'string',
+        'required': True
     }
 }
 
