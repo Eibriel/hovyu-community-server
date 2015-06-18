@@ -134,7 +134,10 @@ def post_GET_payment_stats(request, payload):
         }
     }
     payments_db = payments.aggregate([lookup])
-    total = payments_db['result'][0]['total']
+    total = 0
+    
+    if len(payments_db['result'])>0:
+        total = payments_db['result'][0]['total']
     
     items['_items'] = [{
         'total': total
