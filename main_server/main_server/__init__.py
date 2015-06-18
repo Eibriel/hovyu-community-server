@@ -167,12 +167,18 @@ def rebuild_places():
             'osm_id': osm_id,
             'name': name,
             'type': type_,
+            'location': {"type":"Point","coordinates":[latitude, longitude]},
             'is_in': {
                 'country': country,
                 'state': state,
                 'city': city
             },
-            'location': {"type":"Point","coordinates":[latitude, longitude]}
+            'near_place': {
+                'name': None
+                'country': None,
+                'state': None,
+                'city': None
+            }
         }
         print (place)
         
