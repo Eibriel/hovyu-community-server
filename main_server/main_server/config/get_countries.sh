@@ -1,5 +1,5 @@
 [out:json];
-relation (-57, -74, -21.21, -53.272)
+node (-57, -74, -21.21, -53.272)
     ["place"]
     ["place"!="country"]
     ["place"!="state"];
