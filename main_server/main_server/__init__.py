@@ -174,7 +174,7 @@ def rebuild_places():
                 'city': city
             },
             'near_place': {
-                'name': None
+                'name': None,
                 'country': None,
                 'state': None,
                 'city': None
