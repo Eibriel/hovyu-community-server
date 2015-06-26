@@ -70,9 +70,9 @@ def post_GET_stores(request, payload):
     stores.create_index([("location", "2dsphere")])
     points_of_interest = app.data.driver.db['points_of_interest']
     raw_payload = json.loads(payload.data.decode("utf-8"))
-    add_ids()
+    #add_ids()
     items = None
-    if raw_payload.get('_items'):
+    if '_items' in raw_payload:
         items = raw_payload.get('_items')
     elif raw_payload:
         items = [raw_payload]
@@ -102,7 +102,7 @@ def post_GET_stores(request, payload):
                     point_list.append(point['name'])
             item["near_points"] = point_list
             # Score
-            if item['score']['count'] > 0:
+            if 'score' in item and item['score']['count'] > 0:
                 item['total_score'] = item['score']['sum'] / item['score']['count']
             else:
                 item['total_score'] = 0
@@ -114,7 +114,7 @@ def post_GET_stores(request, payload):
                 item['place'] = None
         
         for item in items:
-            if item['highlight']:
+            if 'highlight' in item and item['highlight']:
                 high_items.append(item)
             else:
                 common_items.append(item)
@@ -183,7 +183,6 @@ def post_GET_payment_stats(request, payload):
     }
     payments_db = payments.aggregate([lookup])
     total = 0
-    
     if len(payments_db['result'])>0:
         total = payments_db['result'][0]['total']
     
