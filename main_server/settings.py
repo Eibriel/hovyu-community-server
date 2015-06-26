@@ -15,6 +15,14 @@ stores_schema = { # Required
         'type': 'string',
         'required': True
     },
+    'iid': {
+        'type': 'integer',
+        'required': True,
+    },
+    'wid': {
+        'type': 'string',
+        'required': True,
+    },
     'views': {
         'type': 'integer',
         'required': True,

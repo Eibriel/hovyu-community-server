@@ -1,8 +1,15 @@
 import json
+import random
 from eve import Eve
 from bson import ObjectId
 
 Eve.debug = True
+
+wid_chars = [ 0x1f31e, 0x1f33d, 0x1f34e, 0x1f433, 0x1f427,
+              0x1f525, 0x2744,  0x2764,  0x1f332, 0x1f343,
+              0x1f412, 0x1f407, 0x1f418, 0x1f416, 0x1f347,
+              0x1f353, 0x1f6b2, 0x1f3b8, 0x1f3c0, 0x1f3b7,
+              0x1f30d, 0x1f31d, 0x1f40d, 0x1f52d, 0x1f308]
 
 def pre_GET_stores(request, lookup):
     if 'products' not in request.args:
@@ -63,16 +70,22 @@ def post_GET_stores(request, payload):
     stores.create_index([("location", "2dsphere")])
     points_of_interest = app.data.driver.db['points_of_interest']
     raw_payload = json.loads(payload.data.decode("utf-8"))
-    items = raw_payload.get('_items')
+    add_ids()
+    items = None
+    if raw_payload.get('_items'):
+        items = raw_payload.get('_items')
+    elif raw_payload:
+        items = [raw_payload]
 
     #if '_items' not in items:
     #    items = {'_items': [items]}
-
+    
     if items:
         high_items = []
         common_items = []
     
         for item in items:
+            #print (item)
             point_list = []
             if 'location' in item and item['location']:
                 location = item['location']['coordinates']
@@ -107,8 +120,42 @@ def post_GET_stores(request, payload):
                 common_items.append(item)
         
         items = high_items+common_items
-        raw_payload['_items'] = items
+        
+        raw_payload = {'_items': items}
         payload.set_data(json.dumps(raw_payload).encode('utf-8'))
+
+
+def generate_ids():
+    wid = ""
+    stores_db = app.data.driver.db['stores']
+    while True:
+        for n in range(0,6):
+            wid = "{0}{1}".format(wid, chr(random.choice(wid_chars)))
+        stores = stores_db.find({'wid': wid}).count()
+        if stores == 0:
+            break
+    while True:
+        iid = random.randint(0,999999999)
+        stores = stores_db.find({'wid': iid}).count()
+        if stores == 0:
+            break
+    return wid, iid
+
+
+def on_insert_stores(items):
+    for item in items:
+        wid, iid = generate_ids()
+        item['wid'] = wid
+        item['iid'] = iid
+
+
+def add_ids():
+    stores_db = app.data.driver.db['stores']
+    stores = stores_db.find({'wid': {'$exists': False}, 'iid': {'$exists': False}})
+    #stores = stores_db.find()
+    for store in stores:
+        wid, iid = generate_ids()
+        stores_db.update({'_id': store['_id']}, {"$set":{'wid': wid, 'iid': iid}})
 
 
 def pre_GET_products(request, lookup):
@@ -253,6 +300,7 @@ app.on_pre_GET_places += pre_GET_places
 
 app.on_pre_GET_stores += pre_GET_stores
 app.on_post_GET_stores += post_GET_stores
+app.on_insert_stores += on_insert_stores
 
 app.on_pre_GET_products += pre_GET_products
 app.on_pre_GET_points_of_interest += pre_GET_points_of_interest
