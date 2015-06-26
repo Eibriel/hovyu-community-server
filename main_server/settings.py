@@ -15,10 +15,6 @@ stores_schema = { # Required
         'type': 'string',
         'required': True
     },
-    'country': {
-        'type': 'objectid',
-        'required': True
-    },
     'views': {
         'type': 'integer',
         'required': True,
@@ -72,12 +68,11 @@ stores_schema = { # Required
                 'required': True
             }
         }
-    },
+    }, # Optional
     'highlight': {
         'type': 'boolean',
-        'required': True,
         'default': False
-    }, # Optional
+    },
     'description': {
         'type': 'string'
     },

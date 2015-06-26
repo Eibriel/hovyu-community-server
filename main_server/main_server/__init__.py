@@ -62,16 +62,17 @@ def post_GET_stores(request, payload):
     # TODO pymongo.GEOSPHERE
     stores.create_index([("location", "2dsphere")])
     points_of_interest = app.data.driver.db['points_of_interest']
-    items = json.loads(payload.data.decode("utf-8"))
+    raw_payload = json.loads(payload.data.decode("utf-8"))
+    items = raw_payload.get('_items')
 
-    if '_items' not in items:
-        items = {'_items': [items]}
+    #if '_items' not in items:
+    #    items = {'_items': [items]}
 
-    if '_items' in items:
+    if items:
         high_items = []
         common_items = []
     
-        for item in items['_items']:
+        for item in items:
             point_list = []
             if 'location' in item and item['location']:
                 location = item['location']['coordinates']
@@ -99,15 +100,15 @@ def post_GET_stores(request, payload):
             if 'place' not in item:
                 item['place'] = None
         
-        for item in items['_items']:
+        for item in items:
             if item['highlight']:
                 high_items.append(item)
             else:
                 common_items.append(item)
         
         items = high_items+common_items
-        
-        payload.set_data(json.dumps(items).encode('utf-8'))
+        raw_payload['_items'] = items
+        payload.set_data(json.dumps(raw_payload).encode('utf-8'))
 
 
 def pre_GET_products(request, lookup):
