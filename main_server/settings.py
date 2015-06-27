@@ -189,21 +189,31 @@ payments_schema = {
     'payment_method': {
         'type': 'string',
         'required': True,
-        'allowed': ['local_bank', 'pagomiscuentas', 'bitcoin', 'bonus']
+        'allowed': ['local_bank', 'pagomiscuentas', 'mercadopago', 'bitcoin', 'bonus']
+    },
+    'method_id': {
+        'type': 'string'
     },
     'description': {
         'type': 'string',
         'required': True
     },
+    'email': {
+        'type': 'string',
+        'required': True
+    },
     'start_date': {
-        'type': 'date',
+        'type': 'datetime',
     },
     'end_date': {
-        'type': 'date',
+        'type': 'datetime',
     },
     'store_id': {
         'type': 'objectid',
         'required': True
+    },
+    'store_iid': {
+        'type': 'integer'
     },
     'currency': {
         'type': 'string',
