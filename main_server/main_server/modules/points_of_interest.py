@@ -1,3 +1,5 @@
+from main_server import app
+
 class Points_of_interest():
     def pre_GET_points_of_interest(request, lookup):
         points_of_interest = app.data.driver.db['points_of_interest']

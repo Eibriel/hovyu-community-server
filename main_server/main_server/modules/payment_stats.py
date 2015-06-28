@@ -1,3 +1,7 @@
+import json
+
+from main_server import app
+
 class Payment_stats():
     def post_GET_payment_stats(request, payload):
         payments = app.data.driver.db['payments']
