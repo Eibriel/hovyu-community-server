@@ -5,10 +5,13 @@ from bson import ObjectId
 from main_server import app
 from main_server.mail_client import send_mail
 
+from jinja2 import Environment, PackageLoader
+
         
 class Payments():
     def on_insert_payments(items):
-        token = ""
+        token = ''
+        pay_link = ''
         headers = {'accept': 'application/json',
                    'content-type': 'application/x-www-form-urlencoded'}
         headers2 = {'accept': 'application/json',
@@ -28,7 +31,17 @@ class Payments():
         for item in items:
             stores_db = app.data.driver.db['stores']
             store = stores_db.find_one({'_id': ObjectId(item['store_id'])})
-                
+            
+            if item['product'] == 'highlight_one_year':
+                item['amount'] = 2000.0
+                item['day_cost'] = 1.0
+            elif item['product'] == 'highlight_one_month':
+                item['amount'] = 200.0
+                item['day_cost'] = 1.0
+            
+            item['pay_link'] = ''
+            item['sandbox_pay_link'] = ''
+            
             if item['payment_method'] == 'mercadopago':
                 price = float(item['amount'])
                 mp_item = {'title': 'Destacar comercio por 1 anio',
@@ -46,6 +59,8 @@ class Payments():
                 preference_data = r.json()
                 item['method_id'] = preference_data['id']
                 item['store_iid'] = store['iid']
+                item['pay_link'] = preference_data['init_point']
+                item['sandbox_pay_link'] = preference_data['sandbox_init_point']
                 print (r)
                 print (r.text)
         
@@ -59,93 +74,27 @@ class Payments():
             username = app.config['PAYMENT_MAIL_USERNAME']
             password = app.config['PAYMENT_MAIL_PASSWORD']
             
-            name = store['name']
-            iid = store['iid']
-            amount_text = ''
-            saving_text = ''
             to = item['email']
-
-            text="""\
-    ¡Hola!
-    Para destacar el comercio "{0}"(1) siga estas instrucciones.
-
-    {2} (descuento: {3})
-
-    Métodos de pago disponibles:
-
-    Transferencia Bancaria
-    ----------------------
-    Realice la transferencia a la siguiente cuenta,
-    luego responda este correo con el comprobante de transferencia correspondiente.
-    (Es importante que no modifique el asunto del correo)
-                
-    Cuenta Corriente en pesos
-    Banco: BBVA Frances
-    Número: 270-7129/2
-    CBU: 0170270720000000712925
-    Titular: Gabriel Caraballo
-    CUIT: 20311134451
-
-
-    MercadoPago
-    -----------
-    (Próximamente)
-
-
-    PagoMisCuentas
-    --------------
-    (Próximamente)
-
-
-    Bitcoin
-    -------
-    (Próximamente)
-
-
-    Atte.
-    Gabriel Caraballo
-    WIDU Transmedia
-
-            """.format(name, iid, amount_text, saving_text)
             
-            html="""\
-            <html>
-                <head></head>
-                <body>
-                    <p>¡Hola!</p>
-                    <p>Para destacar el comercio "{0}"({1}) siga estas instrucciones.</p>
-                    <p>{2} (descuento: {3})</p>
-                    <p>Métodos de pago disponibles</p>
-                    <p>Transferencia Bancaria</p>
-                    <p>
-                    Realice la transferencia a la siguiente cuenta,<br>
-                    luego responda este correo con el comprobante de transferencia correspondiente.<br>
-                    (Es importante que no modifique el asunto del correo)
-                    </p>
-                    Cuenta Corriente en pesos<br>
-                    Banco: BBVA Frances<br>
-                    Número: 270-7129/2<br>
-                    CBU: 0170270720000000712925<br>
-                    Titular: Gabriel Caraballo<br>
-                    CUIT: 20311134451<br>
-                    </p>
-                    
-                    <p>MercadoPago</p>
-                    <p>(Próximamente)</p>
-                    
-                    <p>PagoMisCuentas</p>
-                    <p>(Próximamente)</p>
+            mail_data = {
+                'name': store['name'],
+                'iid': store['iid'],
+                'amount_text': '',
+                'saving_text': '',
+                'to': to,
+                'method': item['payment_method'],
+                'method_name': item['payment_method'],
+                'pay_link': item['pay_link']
+            }
 
-                    <p>Bitcoin</p>
-                    <p>(Próximamente)</p>
-                    
-                    <p>Atte.<br>
-                    Gabriel Caraballo<br>
-                    WIDU Transmedia</p>
-                </body>
-            </html>
-            """.format(name, iid, amount_text, saving_text)
+            env = Environment(loader=PackageLoader('main_server', 'templates/email'))
 
-            subject="Instrucciones de pago ({0})".format(iid)
+            template = env.get_template('payment.txt')
+            text=template.render(data = mail_data)
+            
+            template = env.get_template('payment.html')
+            html=template.render(data = mail_data)
+
+            subject="Instrucciones de pago ({0})".format(mail_data['iid'])
             
             send_mail(from_, to, subject, text, html, smtp_server, username, password)

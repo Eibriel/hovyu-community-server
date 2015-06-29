@@ -202,6 +202,15 @@ payments_schema = {
         'type': 'string',
         'required': True
     },
+    'pay_link': {
+        'type': 'string',
+    },
+    'sandbox_pay_link': {
+        'type': 'string',
+    },
+    'product': {
+        'type': 'string',
+    },
     'start_date': {
         'type': 'datetime',
     },
@@ -221,12 +230,10 @@ payments_schema = {
         'allowed': ['ar', 'usd', 'euro', 'bitcoin']
     },
     'amount': {
-        'type': 'integer',
-        'required':True
+        'type': 'float',
     },
     'day_cost': {
-        'type': 'integer',
-        'required': True
+        'type': 'float',
     },
     'completed': {
         'type': 'boolean',

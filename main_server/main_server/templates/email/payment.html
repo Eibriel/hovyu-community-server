@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block body %}
+        <h2>¡Muchas gracias por tu interes!</h2>
+        <p>Para destacar el comercio "{{ data.name }}"({{data.iid}}) siga estas instrucciones:</p>
+        <p>{{data.amount_text}} (descuento: {{data.saving_text}})</p>
+        {% if data.method=='local_bank' %}
+        <p>Transferencia Bancaria</p>
+        <p>
+        Realice la transferencia a la siguiente cuenta,<br>
+        luego responda este correo con el comprobante de transferencia correspondiente.<br>
+        (Es importante que no modifique el asunto del correo)
+        </p>
+        Cuenta Corriente en pesos<br>
+        Banco: BBVA Frances<br>
+        Número: 270-7129/2<br>
+        CBU: 0170270720000000712925<br>
+        Titular: Gabriel Caraballo<br>
+        CUIT: 20311134451<br>
+        </p>
+        {% elif data.method=='mercadopago' %}
+        <p>MercadoPago</p>
+        <p>
+        Utilice el siguiente link para realizar el pago a través de MercadoPago: <a href="{{data.pay_link}}">[Pagar ahora]</a><br>
+        Link: {{data.pay_link}}
+        </p>
+        {% endif %}
+        
+{% endblock %}
+        
+{% block signature %}
+        <p>Atte.<br>
+        Gabriel Caraballo<br>
+        WIDU Transmedia</p>
+{% endblock %}

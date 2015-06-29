@@ -1,0 +1,32 @@
+{% block body %}
+¡Muchas gracias por tu interes!
+Para destacar el comercio "{{ data.name }}"({{data.iid}}) siga estas instrucciones:
+
+{{data.amount_text}} (descuento: {{data.saving_text}})
+
+{% if data.method=='transfer' %}
+Transferencia Bancaria
+----------------------
+Realice la transferencia a la siguiente cuenta,
+luego responda este correo con el comprobante de transferencia correspondiente.
+(Es importante que no modifique el asunto del correo)
+            
+Cuenta Corriente en pesos
+Banco: BBVA Frances
+Número: 270-7129/2
+CBU: 0170270720000000712925
+Titular: Gabriel Caraballo
+CUIT: 20311134451
+{% elif data.method=='mercadopago' %}
+MercadoPago
+-----------
+Utilice el siguiente link para realizar el pago a través de MercadoPago:
+Link: {{data.pay_link}}
+{% endif %}
+{% endblock %}
+        
+{% block signature %}
+Atte.
+Gabriel Caraballo
+WIDU Transmedia
+{% endblock %}
