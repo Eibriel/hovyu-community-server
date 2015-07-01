@@ -368,5 +368,36 @@ class Payments():
             if not payment['completed'] and completed:
                 data['start_date'] = datetime.now()
             #SAVE DATA TO DB
+            print (data)
             payments_db.update({'_id': payment['_id'], '_etag': payment['_etag']}, {"$set": data})
+            # SEND MAIL
+            stores_db = app.data.driver.db['stores']
+            store = stores_db.find_one({'_id': payment['store_id']})
+            to = payment['email']
+            smtp_server = app.config['PAYMENT_SMTP_SERVER']
+            from_ = app.config['PAYMENT_MAIL_FROM']
+            username = app.config['PAYMENT_MAIL_USERNAME']
+            password = app.config['PAYMENT_MAIL_PASSWORD']
+            amount_text = money_scale(data['real_amount'], payment['currency'], True)
+            title = "Total pagado: {0} {1}".format(payment['currency'], amount_text)
+            mail_data = {
+                'name': store['name'],
+                'iid': store['iid'],
+                'title': title,
+                'description': '',
+                'to': to,
+                'method': payment['payment_method'],
+                'method_name': payment['payment_method'],
+                'amount': amount_text,
+                #'confirmations': confirmations,
+                #'input_transaction_hash': input_transaction_hash,
+                #'bitcoin_address': input_address
+            }
+            #print (mail_data)
+            template = env.get_template('payment_confirmation.txt')
+            text=template.render(data = mail_data)
+            template = env.get_template('payment_confirmation.html')
+            html=template.render(data = mail_data)
+            subject="Confirmación de pago ({0})".format(payment['store_iid'])
+            send_mail(from_, to, subject, text, html, smtp_server, username, password)
             return '', 200
