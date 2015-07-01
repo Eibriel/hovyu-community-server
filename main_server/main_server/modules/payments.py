@@ -314,6 +314,7 @@ class Payments():
                 abort(400)
         # MERCADOPAGO CALLBACK
         elif 'callback' in request.args and request.args['callback']=='mercadopago':
+            _id = request.view_args['_id']
             print ('MERCADOPAGO')
             topic = request.args['topic']
             notification_id = request.args['notification_id']
@@ -350,6 +351,16 @@ class Payments():
             # GET PAYMENT AND STORE FROM DB
             payments_db = app.data.driver.db['payments']
             payment = payments_db.find_one({'_id': ObjectId(_id)})
+            # SECURITY CHECKS
+            if not payment:
+                print ('404: payment not found')
+                abort(404)
+            if payment['payment_method'] != 'mercadopago':
+                print ('400: bad callback')
+                abort(400)
+            #if payment['bitcoin']['secret'] != secret:
+            #    print ('400: secret')
+            #    abort(400)
             data = {'real_amount': money_scale(paid_amount, payment['currency']),
                     'completed': completed
             }
