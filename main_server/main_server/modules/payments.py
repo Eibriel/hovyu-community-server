@@ -342,18 +342,17 @@ class Payments():
 
             completed = False
             paid_amount = 0
-            for payment in merchant_order_info["payments"]:
-                if payment['status'] == 'approved':
-                    paid_amount += payment['transaction_amount']
+            for mp_payment in merchant_order_info["payments"]:
+                if mp_payment['status'] == 'approved':
+                    paid_amount += mp_payment['transaction_amount']
             if paid_amount >= merchant_order_info["total_amount"]:
                 completed = True
-
-            data = {'real_amount': money_scale(paid_amount, payment['currency']),
-                    'completed': completed
-            }
             # GET PAYMENT AND STORE FROM DB
             payments_db = app.data.driver.db['payments']
             payment = payments_db.find_one({'_id': ObjectId(_id)})
+            data = {'real_amount': money_scale(paid_amount, payment['currency']),
+                    'completed': completed
+            }
             # FIRST TIME CONFIRMATION
             if not payment['completed'] and completed:
                 data['start_date'] = datetime.now()
