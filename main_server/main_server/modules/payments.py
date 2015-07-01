@@ -16,19 +16,30 @@ from flask import abort
 
 from datetime import datetime
 
+
 env = Environment(loader=PackageLoader('main_server', 'templates/email'))
+
+headers = {'accept': 'application/json',
+           'content-type': 'application/x-www-form-urlencoded'}
+headers2 = {'accept': 'application/json',
+            'content-type': 'application/json'}
+data = {'grant_type': 'client_credentials',
+        'client_id': app.config['MERCADOPAGO_CLIENT_ID'],
+        'client_secret': app.config['MERCADOPAGO_CLIENT_SECRET']}
+
+
+def get_auth_data():
+    r = requests.post('https://api.mercadopago.com/oauth/token',
+                  headers = headers,
+                  data = data)
+    auth_data = r.json()
+    return auth_data
+
 
 class Payments():
     def on_insert_payments(items):
         token = ''
         pay_link = ''
-        headers = {'accept': 'application/json',
-                   'content-type': 'application/x-www-form-urlencoded'}
-        headers2 = {'accept': 'application/json',
-                    'content-type': 'application/json'}
-        data = {'grant_type': 'client_credentials',
-                'client_id': app.config['MERCADOPAGO_CLIENT_ID'],
-                'client_secret': app.config['MERCADOPAGO_CLIENT_SECRET']}
 
         for item in items:
             stores_db = app.data.driver.db['stores']
@@ -118,10 +129,7 @@ class Payments():
 
             # Mercadopago
             if item['payment_method'] == 'mercadopago':
-                r = requests.post('https://api.mercadopago.com/oauth/token',
-                              headers = headers,
-                              data = data)
-                auth_data = r.json()
+                auth_data = get_auth_data()
                 print (auth_data)
                 token = auth_data['access_token']
                 user_id = auth_data['user_id']
@@ -306,4 +314,12 @@ class Payments():
                 abort(400)
         # MERCADOPAGO CALLBACK
         elif 'callback' in request.args and request.args['callback']=='mercadopago':
-            pass
+            print ('MERCADOPAGO')
+            topic = request.args['topic']
+            notification_id = request.args['notification_id']
+            auth_data = get_auth_data()
+            token = auth_data['access_token']
+            r = requests.get('https://api.mercadopago.com/collections/notifications/{0}?access_token={1}'.format(notification_id, token))
+            print (r)
+            print (r.text)
+            return '', 200
