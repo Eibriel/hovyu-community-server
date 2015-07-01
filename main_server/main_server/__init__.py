@@ -2,11 +2,9 @@ import json
 import random
 from eve import Eve
 
-
-Eve.debug = True
-
 app = Eve()
 app.config.from_object('main_server.config.Config')
+app.debug = app.config['DEBUG']
 
 from main_server.modules.places import Places
 app.on_pre_GET_places += Places.pre_GET_places
