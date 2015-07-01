@@ -67,6 +67,7 @@ class Payments():
                 if payments == 0:
                     break
             item['_id'] = _id
+            secret= random.randint(0, 999999)
 
             if item['product'] == 'highlight_one_year':
                 ars_amount = money_scale(2000, 'ars')
@@ -152,7 +153,7 @@ class Payments():
                 preference = {'items': [mp_item],
                               'external_reference': store['iid'],
                               'back_urls': {'success': 'http://xn--wid-boa.com', 'pending': 'http://xn--wid-boa.com', 'failure': 'http://xn--wid-boa.com'},
-                              'notification_url': 'http://xn--wid-boa.com/mercadopago_payment_notification'}
+                              'notification_url': 'http://xn--wid-boa.com/mercadopago_callback/{0}/{1}'.format(item['_id'], secret)}
 
                 print (preference)
                 r = requests.post('https://api.mercadopago.com/checkout/preferences/?access_token={0}'.format(token),
@@ -172,7 +173,6 @@ class Payments():
             elif item['payment_method'] == 'bitcoin':
                 apiurl =  "https://blockchain.info/es/api/receive"
                 address = app.config['BITCOIN_PAYMENT_ADDRESS']
-                secret= random.randint(0, 999999)
                 callback = "http://xn--wid-boa.com/bitcoin_callback/{0}/{1}".format(item['_id'], secret)
                 params = {
                     "method": "create",
@@ -319,6 +319,10 @@ class Payments():
             notification_id = request.args['notification_id']
             auth_data = get_auth_data()
             token = auth_data['access_token']
+
+            r = requests.get('https://api.mercadopago.com/merchant_orders/?access_token={0}'.format(token))
+            print (r)
+            print (r.text)
             r = requests.get('https://api.mercadopago.com/collections/notifications/{0}?access_token={1}'.format(notification_id, token))
             print (r)
             print (r.text)
