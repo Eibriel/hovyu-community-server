@@ -1,0 +1,24 @@
+{% block body %}
+Su pago ha sido confirmado
+Ha destacado el comercio "{{ data.name }}"({{data.iid}}).
+
+{{data.title}}
+{{data.description}}
+
+{% if data.method=='local_bank' %}
+Transferencia Bancaria
+----------------------
+{% elif data.method=='bitcoin' %}
+Bitcoin
+-------
+Pago a la dirección {{data.bitcoin_address}}
+Información de la dirección: https://blockchain.info/address/{{ data.bitcoin_address }}
+Información de la transacción: https://blockchain.info/tx/{{ data.input_transaction_hash }}
+{% endif %}
+{% endblock %}
+
+{% block signature %}
+Atte.
+Gabriel Caraballo
+WIDU Transmedia
+{% endblock %}

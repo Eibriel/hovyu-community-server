@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block body %}
+        <h2>Su pago ha sido confirmado</h2>
+        <p>Ha destacado el comercio "{{ data.name }}"({{data.iid}}).</p>
+        <p>{{data.title}}<br>
+        {{data.description}}</p>
+        {% if data.method=='local_bank' %}
+        <p>Transferencia Bancaria</p>
+        {% elif data.method=='mercadopago' %}
+        <p>MercadoPago</p>
+        {% elif data.method=='bitcoin' %}
+        <p>Bitcoin</p>
+        <p>
+        Pago a la dirección {{data.bitcoin_address}}
+        <a href="https://blockchain.info/address/{{ data.bitcoin_address }}"> [Información de la dirección]</a>
+        <a href="https://blockchain.info/tx/{{ data.input_transaction_hash }}"> [Información de la transacción]</a><br>
+        Confirmaciones: {{ data.confirmations }}
+        </p>
+        {% endif %}
+
+{% endblock %}
+
+{% block signature %}
+        <p>Atte.<br>
+        Gabriel Caraballo<br>
+        WIDU Transmedia</p>
+{% endblock %}
