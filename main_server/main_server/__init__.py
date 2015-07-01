@@ -27,5 +27,4 @@ app.on_post_GET_payment_stats += Payment_stats.post_GET_payment_stats
 
 from main_server.modules.payments import Payments
 app.on_insert_payments += Payments.on_insert_payments
-
-
+app.on_pre_GET_payments += Payments.pre_GET_payments

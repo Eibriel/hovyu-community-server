@@ -10,14 +10,14 @@ class Payment_stats():
         lookup = {
             '$group': {
                 '_id': None,
-                'total': {'$sum': '$amount'}
+                'total': {'$sum': '$real_amount'}
             }
         }
         payments_db = payments.aggregate([lookup])
         total = 0
         if len(payments_db['result'])>0:
             total = payments_db['result'][0]['total']
-        
+
         items['_items'] = [{
             'total': total
         }]

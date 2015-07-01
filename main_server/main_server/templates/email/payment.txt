@@ -2,7 +2,8 @@
 ¡Muchas gracias por tu interes!
 Para destacar el comercio "{{ data.name }}"({{data.iid}}) siga estas instrucciones:
 
-{{data.amount_text}} (descuento: {{data.saving_text}})
+{{data.title}}
+{{data.description}}
 
 {% if data.method=='transfer' %}
 Transferencia Bancaria
@@ -10,7 +11,7 @@ Transferencia Bancaria
 Realice la transferencia a la siguiente cuenta,
 luego responda este correo con el comprobante de transferencia correspondiente.
 (Es importante que no modifique el asunto del correo)
-            
+
 Cuenta Corriente en pesos
 Banco: BBVA Frances
 Número: 270-7129/2
@@ -22,9 +23,15 @@ MercadoPago
 -----------
 Utilice el siguiente link para realizar el pago a través de MercadoPago:
 Link: {{data.pay_link}}
+{% elif data.method=='bitcoin' %}
+Bitcoin
+-------
+Envíe el pago a la dirección {{data.bitcoin_address}}
+Pagar ahora: bitcoin:{{ data.bitcoin_address }}?label={{ data.title|urlencode }}&amount={{ data.amount }}
+Información: https://blockchain.info/address/{{ data.bitcoin_address }}
 {% endif %}
 {% endblock %}
-        
+
 {% block signature %}
 Atte.
 Gabriel Caraballo

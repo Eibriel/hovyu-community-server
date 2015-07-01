@@ -8,7 +8,8 @@ XML = False
 try:
     MONGO_HOST= os.environ['MONGODOCKERCOMPOSE_DB_1_PORT_27017_TCP_ADDR']
 except:
-    print ("Error")
+    #print ("Error")
+    pass
 
 stores_schema = { # Required
     'name': {
@@ -186,6 +187,15 @@ points_of_interest_schema = {
 }
 
 payments_schema = {
+    'iid': {
+        'type': 'integer',
+        #'required': True
+    },
+    'country': {
+        'type': 'string',
+        'required': True,
+        'allowed': ['ar', 'br', 'co', 've', 'mx', '']
+    },
     'payment_method': {
         'type': 'string',
         'required': True,
@@ -226,14 +236,16 @@ payments_schema = {
     },
     'currency': {
         'type': 'string',
-        'required': True,
-        'allowed': ['ar', 'usd', 'euro', 'bitcoin']
+        'allowed': ['ar', 'usd', 'btc']
     },
     'amount': {
-        'type': 'float',
+        'type': 'integer',
+    },
+    'real_amount': {
+        'type': 'integer'
     },
     'day_cost': {
-        'type': 'float',
+        'type': 'integer',
     },
     'completed': {
         'type': 'boolean',
@@ -246,6 +258,43 @@ payments_schema = {
     'refund_description': {
         'type': 'string',
         'required': True
+    },
+    'bitcoin': {
+        'type': 'dict',
+        'schema': {
+            'secret': {
+                'type': 'string',
+                'required': True
+            },
+            'status': {
+                'type': 'integer',
+                'required': True
+            },
+            'confirmations': {
+                'type': 'integer',
+                'required': True
+            },
+            'input_address': {
+                'type': 'string',
+                'required': True
+            },
+            'destination_address': {
+                'type': 'string',
+                'required': True
+            },
+            'transaction_hash': {
+                'type': 'string',
+                'required': True
+            },
+            'input_transaction_hash': {
+                'type': 'string',
+                'required': True
+            },
+            'value': {
+                'type': 'integer',
+                'required': True
+            }
+        }
     }
 }
 

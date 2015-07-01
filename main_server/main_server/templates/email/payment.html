@@ -3,7 +3,8 @@
 {% block body %}
         <h2>¡Muchas gracias por tu interes!</h2>
         <p>Para destacar el comercio "{{ data.name }}"({{data.iid}}) siga estas instrucciones:</p>
-        <p>{{data.amount_text}} (descuento: {{data.saving_text}})</p>
+        <p>{{data.title}}<br>
+        {{data.description}}</p>
         {% if data.method=='local_bank' %}
         <p>Transferencia Bancaria</p>
         <p>
@@ -24,10 +25,17 @@
         Utilice el siguiente link para realizar el pago a través de MercadoPago: <a href="{{data.pay_link}}">[Pagar ahora]</a><br>
         Link: {{data.pay_link}}
         </p>
+        {% elif data.method=='bitcoin' %}
+        <p>Bitcoin</p>
+        <p>
+        Envíe el pago a la dirección {{data.bitcoin_address}}
+        <a href="bitcoin:{{ data.bitcoin_address }}?label={{ data.title|urlencode }}&amp;amount={{ data.amount }}"> [Pagar ahora]</a>
+        <a href="https://blockchain.info/address/{{ data.bitcoin_address }}"> [Información]</a></p>
+        </p>
         {% endif %}
-        
+
 {% endblock %}
-        
+
 {% block signature %}
         <p>Atte.<br>
         Gabriel Caraballo<br>

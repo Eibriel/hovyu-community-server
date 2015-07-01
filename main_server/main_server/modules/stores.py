@@ -21,7 +21,7 @@ class Stores():
                 break
         while True:
             iid = random.randint(0,999999999)
-            stores = stores_db.find({'wid': iid}).count()
+            stores = stores_db.find({'iid': iid}).count()
             if stores == 0:
                 break
         return wid, iid
@@ -54,7 +54,7 @@ class Stores():
         except:
             latitude = None
             longitude = None
-            
+
         if request.args['products'] not in ['', '!all']:
             product = app.data.driver.db['products']
             lookup_ = {}
@@ -68,14 +68,14 @@ class Stores():
                     for p in product_db:
                         products.append(ObjectId(p['_id']))"""
             lookup["products"] = {'$in': [ObjectId(products_search)]}
-        
+
         location_lookup = {'location': {"$near":
                                {"$geometry":
                                   { "type": "Point" ,
                                     "coordinates": [latitude , longitude]},
                                  "$maxDistance": 300
                           }}}
-        
+
         if latitude and longitude:
             # $near and $geometry don't work together
             #lookup["location"] = location_lookup
@@ -85,12 +85,12 @@ class Stores():
             for store in stores_db:
                 stores_ids.append(store['_id'])
             lookup["_id"] = {'$in': stores_ids}
-        
+
         if 'place_id' in request.args:
             place_id = request.args['place_id']
         else:
             place_id = None
-            
+
         if place_id:
             lookup["place.place_id"] = place_id
         #print (lookup)
@@ -111,11 +111,11 @@ class Stores():
 
         #if '_items' not in items:
         #    items = {'_items': [items]}
-        
+
         if items:
             high_items = []
             common_items = []
-        
+
             for item in items:
                 #print (item)
                 point_list = []
@@ -144,14 +144,14 @@ class Stores():
                 # Fix place
                 if 'place' not in item:
                     item['place'] = None
-            
+
             for item in items:
                 if 'highlight' in item and item['highlight']:
                     high_items.append(item)
                 else:
                     common_items.append(item)
-            
+
             items = high_items+common_items
-            
+
             raw_payload = {'_items': items}
             payload.set_data(json.dumps(raw_payload).encode('utf-8'))
