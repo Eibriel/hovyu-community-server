@@ -329,7 +329,7 @@ class Payments():
                 print (r)
                 print (r.text)
                 payment_info = r.json()
-                order_id = payment_info["response"]["collection"]["merchant_order_id"]
+                order_id = payment_info["collection"]["merchant_order_id"]
             elif topic == 'merchant_order':
                 order_id = notification_id
 
@@ -342,10 +342,10 @@ class Payments():
 
             completed = False
             paid_amount = 0
-            for payment in merchant_order_info["response"]["payments"]:
+            for payment in merchant_order_info["payments"]:
                 if payment['status'] == 'approved':
                     paid_amount += payment['transaction_amount']
-            if paid_amount >= merchant_order_info["response"]["total_amount"]:
+            if paid_amount >= merchant_order_info["total_amount"]:
                 completed = True
 
             data = {'real_amount': money_scale(paid_amount, payment['currency']),
