@@ -274,7 +274,7 @@ class Payments():
                 print ('400: secret')
                 abort(400)
             # FIRST TIME CONFIRMATION
-            if not payment['completed'] and completed or True:
+            if not payment['completed'] and completed:
                 data['start_date'] = datetime.now()
                 # SEND MAIL
                 stores_db = app.data.driver.db['stores']
@@ -320,10 +320,43 @@ class Payments():
             auth_data = get_auth_data()
             token = auth_data['access_token']
 
-            r = requests.get('https://api.mercadopago.com/merchant_orders/?access_token={0}'.format(token))
+            #r = requests.get('https://api.mercadopago.com/collections/search?access_token={0}'.format(token))
+            #print (r)
+            #print (r.text)
+
+            if topic == 'payment':
+                r = requests.get('https://api.mercadopago.com/collections/notifications/{0}?access_token={1}'.format(notification_id, token))
+                print (r)
+                print (r.text)
+                payment_info = r.json()
+                order_id = payment_info["response"]["collection"]["merchant_order_id"]
+            elif topic == 'merchant_order':
+                order_id = notification_id
+
+            url = 'https://api.mercadopago.com/merchant_orders/{0}?access_token={1}'.format(order_id, token)
+            r = requests.get(url)
+            #print (url)
             print (r)
             print (r.text)
-            r = requests.get('https://api.mercadopago.com/collections/notifications/{0}?access_token={1}'.format(notification_id, token))
-            print (r)
-            print (r.text)
+            merchant_order_info = r.json()
+
+            completed = False
+            paid_amount = 0
+            for payment in merchant_order_info["response"]["payments"]:
+                if payment['status'] == 'approved':
+                    paid_amount += payment['transaction_amount']
+            if paid_amount >= merchant_order_info["response"]["total_amount"]:
+                completed = True
+
+            data = {'real_amount': money_scale(paid_amount, payment['currency']),
+                    'completed': completed
+            }
+            # GET PAYMENT AND STORE FROM DB
+            payments_db = app.data.driver.db['payments']
+            payment = payments_db.find_one({'_id': ObjectId(_id)})
+            # FIRST TIME CONFIRMATION
+            if not payment['completed'] and completed:
+                data['start_date'] = datetime.now()
+            #SAVE DATA TO DB
+            payments_db.update({'_id': payment['_id'], '_etag': payment['_etag']}, {"$set": data})
             return '', 200
