@@ -4,6 +4,7 @@ WORKDIR /app
 
 RUN pip install Flask
 RUN pip install eve
+RUN pip install requests
 
 COPY . /app
 
