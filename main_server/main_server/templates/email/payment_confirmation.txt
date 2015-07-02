@@ -1,19 +1,23 @@
 {% block body %}
-Su pago ha sido confirmado
+¡Felicitaciones!
 Ha destacado el comercio "{{ data.name }}"({{data.iid}}).
 
 {{data.title}}
 {{data.description}}
 
 {% if data.method=='local_bank' %}
-Transferencia Bancaria
-----------------------
+Su Transferencia Bancaria ha sido confirmada.
+
+{% elif data.method=='mercadopago' %}
+Su pago en MercadoPago ha sido confirmado.
+
 {% elif data.method=='bitcoin' %}
-Bitcoin
--------
-Pago a la dirección {{data.bitcoin_address}}
+Su pago en Bitcoins ha sido confirmado.
+
+Dirección {{data.bitcoin_address}}
 Información de la dirección: https://blockchain.info/address/{{ data.bitcoin_address }}
 Información de la transacción: https://blockchain.info/tx/{{ data.input_transaction_hash }}
+Confirmaciones: {{ data.confirmations }}
 {% endif %}
 {% endblock %}
 

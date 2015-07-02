@@ -1,18 +1,18 @@
 {% extends "layout.html" %}
 
 {% block body %}
-        <h2>Su pago ha sido confirmado</h2>
-        <p>Ha destacado el comercio "{{ data.name }}"({{data.iid}}).</p>
+        <h2>¡Felicitaciones!</h2>
+        <p><strong>Ha destacado el comercio "{{ data.name }}"({{data.iid}})</strong></p>
         <p>{{data.title}}<br>
         {{data.description}}</p>
         {% if data.method=='local_bank' %}
-        <p>Transferencia Bancaria</p>
+        <p>Su Transferencia Bancaria ha sido confirmada.</p>
         {% elif data.method=='mercadopago' %}
-        <p>MercadoPago</p>
+        <p>Su pago en MercadoPago ha sido confirmado.</p>
         {% elif data.method=='bitcoin' %}
-        <p>Bitcoin</p>
+        <p>Su pago en Bitcoins ha sido confirmado.</p>
         <p>
-        Pago a la dirección {{data.bitcoin_address}}
+        Dirección {{data.bitcoin_address}}
         <a href="https://blockchain.info/address/{{ data.bitcoin_address }}"> [Información de la dirección]</a>
         <a href="https://blockchain.info/tx/{{ data.input_transaction_hash }}"> [Información de la transacción]</a><br>
         Confirmaciones: {{ data.confirmations }}
