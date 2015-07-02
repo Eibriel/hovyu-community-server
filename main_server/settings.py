@@ -160,20 +160,102 @@ stores_schema = { # Required
     }
 }
 
+# Human stuff
 products_schema = {
     'name': {
         'type': 'string',
         'required': True
-    },
-    'description': {
-        'type': 'string',
-        'required': True
-    },
-    'wiktionary': {
+    }
+}
+
+products_idea_schema = {
+    'products': {
+        'type': 'list',
+        'schema': {
+            'type': 'dict',
+            'schema': {
+                'product_id': {
+                    'type': 'objectid'
+                },
+                'weight': {
+                    'type': 'integer'
+                },
+                'language': {
+                    'type': 'string'
+                }
+            }
+        }
+    }
+}
+
+attributes_schema = {
+    'name': {
         'type': 'string',
         'required': True
     }
 }
+
+attributes_idea_schema = {
+    'attributes': {
+        'type': 'list',
+        'schema': {
+            'type': 'dict',
+            'schema': {
+                'attribute_id': {
+                    'type': 'objectid'
+                },
+                'weight': {
+                    'type': 'integer'
+                },
+                'language': {
+                    'type': 'string'
+                }
+            }
+        }
+    }
+}
+
+activities_schema = {
+    'name': {
+        'type': 'string',
+        'required': True
+    }
+}
+
+activities_idea_schema = {
+    'activities': {
+        'type': 'list',
+        'schema': {
+            'type': 'dict',
+            'schema': {
+                'activitie_id': {
+                    'type': 'objectid'
+                },
+                'weight': {
+                    'type': 'integer'
+                },
+                'language': {
+                    'type': 'string'
+                }
+            }
+        }
+    },
+    'products_idea': {
+        'type': 'list',
+        'schema': {
+            'type': 'dict',
+            'schema': {
+                'products_idea_id': {
+                    'type': 'objectid'
+                },
+                'weight': {
+                    'type': 'integer'
+                }
+            }
+        }
+    }
+}
+# End human stuff
 
 points_of_interest_schema = {
     'name': {
@@ -375,6 +457,26 @@ products = {
     'schema': products_schema
 }
 
+products_idea = {
+    'schema': products_idea_schema
+}
+
+attributes = {
+    'schema': attributes_schema
+}
+
+attributes_idea = {
+    'schema': attributes_idea_schema
+}
+
+activities = {
+    'schema': activities_schema
+}
+
+activities_idea = {
+    'schema': activities_idea_schema
+}
+
 points_of_interest = {
     'schema': points_of_interest_schema
 }
@@ -396,6 +498,11 @@ places = {
 DOMAIN = {
     'stores': stores,
     'products': products,
+    'products_idea': products_idea,
+    'attributes': attributes,
+    'attributes_idea': attributes_idea,
+    'activities': activities,
+    'activities_idea': activities_idea,
     'points_of_interest': points_of_interest,
     'payments': payments,
     'payment_stats': payment_stats,
