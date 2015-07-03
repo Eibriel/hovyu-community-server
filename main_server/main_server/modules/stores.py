@@ -47,23 +47,6 @@ class Stores():
 
 
     def pre_GET_stores(request, lookup):
-        # FIX PRODUCTS
-        stores_db = app.data.driver.db['stores']
-        stores_all = stores_db.find()
-        for st in stores_all:
-            new_pr = []
-            change = False
-            for pr in st['products']:
-                if type(pr)==str:
-                    change = True
-                    print (ObjectId(pr))
-                    new_pr.append(ObjectId(pr))
-                else:
-                    new_pr.append(pr)
-            if change:
-                print (new_pr)
-                stores_db.update({'_id':st['_id']}, {'$set':{'products': new_pr}})
-        # END FIX
         if 'products' not in request.args:
             return
         if request.args['products'] == '!all':
