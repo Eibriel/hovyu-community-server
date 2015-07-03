@@ -47,6 +47,23 @@ class Stores():
 
 
     def pre_GET_stores(request, lookup):
+        # FIX PRODUCTS
+        stores_db = app.data.driver.db['stores']
+        stores_all = stores_db.find()
+        for st in stores_all:
+            new_pr = []
+            change = False
+            for pr in st['products']:
+                if type(pr)==str:
+                    change = True
+                    print (ObjectId(pr))
+                    new_pr.append(ObjectId(pr))
+                else:
+                    new_pr.append(pr)
+            if change:
+                print (new_pr)
+                stores_db.update({'_id':st['_id']}, {'$set':{'products': new_pr}})
+        # END FIX
         if 'products' not in request.args:
             return
         if request.args['products'] == '!all':
@@ -59,18 +76,8 @@ class Stores():
             longitude = None
 
         if request.args['products'] not in ['', '!all']:
-            product = app.data.driver.db['products']
-            lookup_ = {}
-            products_search = request.args['products']
-            products = []
-            """for product_search in products_search:
-                lookup_['_id'] = ObjectId(products_search)
-                #lookup_['name'] = {"$regex": product_search}
-                product_db = product.find(lookup_)
-                if product_db:
-                    for p in product_db:
-                        products.append(ObjectId(p['_id']))"""
-            lookup["products"] = {'$in': [ObjectId(products_search)]}
+            product_search = request.args['products']
+            lookup["products"] = {'$in': [ObjectId(product_search)]}
 
         location_lookup = {'location': {"$near":
                                {"$geometry":
