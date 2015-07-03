@@ -150,12 +150,12 @@ stores_schema = { # Required
     'products': {
         'type': 'list',
         'schema': {
-            'type': 'objectid',
+            'type': 'string', #some bug prevent this to work when objectid
             'required': True,
-            'data_relation': {
-                'resource': 'products',
-                'field': '_id'
-            }
+            #'data_relation': {
+            #    'resource': 'products',
+            #    'field': '_id'
+            #}
         }
     }
 }
