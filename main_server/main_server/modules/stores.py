@@ -11,24 +11,23 @@ wid_chars = [ 0x1f31e, 0x1f33d, 0x1f34e, 0x1f433, 0x1f427,
               0x1f353, 0x1f6b2, 0x1f3b8, 0x1f3c0, 0x1f3b7,
               0x1f30d, 0x1f31d, 0x1f40d, 0x1f52d, 0x1f308]
 
+def generate_ids():
+    wid = ""
+    stores_db = app.data.driver.db['stores']
+    while True:
+        for n in range(0,6):
+            wid = "{0}{1}".format(wid, chr(random.choice(wid_chars)))
+        stores = stores_db.find({'wid': wid}).count()
+        if stores == 0:
+            break
+    while True:
+        iid = random.randint(0,999999999)
+        stores = stores_db.find({'iid': iid}).count()
+        if stores == 0:
+            break
+    return wid, iid
+
 class Stores():
-
-    def generate_ids():
-        wid = ""
-        stores_db = app.data.driver.db['stores']
-        while True:
-            for n in range(0,6):
-                wid = "{0}{1}".format(wid, chr(random.choice(wid_chars)))
-            stores = stores_db.find({'wid': wid}).count()
-            if stores == 0:
-                break
-        while True:
-            iid = random.randint(0,999999999)
-            stores = stores_db.find({'iid': iid}).count()
-            if stores == 0:
-                break
-        return wid, iid
-
 
     def on_insert_stores(items):
         for item in items:
