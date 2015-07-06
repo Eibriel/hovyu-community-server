@@ -446,6 +446,56 @@ places_schema = {
     }
 }
 
+environments_schema = {
+    'related_properties': {
+        'type': 'list',
+        'schema': {
+            'type': 'string'
+        }
+    },
+    'relations': {
+        'type': 'list',
+        'schema': {
+            'type': 'dict',
+            'schema': {
+                'env_id': {
+                    'type': 'string'
+                },
+                'weight': {
+                    'type': 'integer'
+                }
+            }
+        }
+    }
+}
+
+tipstricks_schema = {
+    'text': {
+        'type': 'string',
+        'required': True
+    },
+    'related_environments': {
+        'type': 'list',
+        'schema': {
+            'type': 'string'
+        }
+    },
+    'relations': {
+        'type': 'list',
+        'schema': {
+            'type': 'dict',
+            'schema': {
+                'env_id': {
+                    'type': 'string'
+                },
+                'weight': {
+                    'type': 'integer'
+                }
+            }
+        }
+    }
+}
+
 stores = {
     # 'soft_delete': True,
     'versioning': True,
@@ -494,6 +544,14 @@ places = {
     'schema': places_schema
 }
 
+environments = {
+    'schema': environments_schema
+}
+
+tipstricks = {
+    'schema': tipstricks_schema
+}
+
 DOMAIN = {
     'stores': stores,
     'products': products,
@@ -502,8 +560,11 @@ DOMAIN = {
     'attributes_idea': attributes_idea,
     'activities': activities,
     'activities_idea': activities_idea,
-    'points_of_interest': points_of_interest,
     'payments': payments,
     'payment_stats': payment_stats,
-    'places': places
+    'places': places,
+    #
+    'points_of_interest': points_of_interest,
+    'environments': environments,
+    'tipstricks': tipstricks,
 }
