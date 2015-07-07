@@ -77,6 +77,10 @@ stores_schema = { # Required
                 'required': True
             }
         }
+    },
+    'edit_reason': {
+        'type': 'string',
+        'required': True
     }, # Optional
     'highlight': {
         'type': 'boolean',
