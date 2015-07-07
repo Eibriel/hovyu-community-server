@@ -474,6 +474,11 @@ tipstricks_schema = {
         'type': 'string',
         'required': True
     },
+    'image': {
+        'type': 'string',
+        'allowed': ['stickers_amorzorzores/zzra_riendo_b.png',
+                    'stickers_amorzorzores/zzr_saltando_b.png']
+    },
     'related_environments': {
         'type': 'list',
         'schema': {
