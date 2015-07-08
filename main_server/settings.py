@@ -505,6 +505,24 @@ tipstricks_schema = {
     }
 }
 
+human_checks_schema = {
+    'image': {
+        'type': 'string'
+    },
+    'options': {
+        'type': 'list',
+        'schema': {
+            'type': 'string'
+        }
+    },
+    'right_option': {
+        'type': 'string'
+    },
+    'type': {
+        'type': 'string'
+    }
+}
+
 stores = {
     # 'soft_delete': True,
     'versioning': True,
@@ -561,6 +579,10 @@ tipstricks = {
     'schema': tipstricks_schema
 }
 
+human_checks = {
+    'schema': human_checks_schema
+}
+
 DOMAIN = {
     'stores': stores,
     'products': products,
@@ -576,4 +598,5 @@ DOMAIN = {
     'points_of_interest': points_of_interest,
     'environments': environments,
     'tipstricks': tipstricks,
+    'human_checks': human_checks
 }
