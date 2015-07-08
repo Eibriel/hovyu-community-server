@@ -182,6 +182,17 @@ activities_schema = {
     'name': {
         'type': 'string',
         'required': True
+    },
+    'products': {
+        'type': 'list',
+        'required': True,
+        'schema': {
+            'type': 'objectid',
+            'data_relation': {
+                'resource': 'products',
+                'field': '_id'
+            }
+        }
     }
 }
 

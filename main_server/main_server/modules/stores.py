@@ -47,37 +47,42 @@ class Stores():
 
 
     def pre_GET_stores(request, lookup):
-        if 'products' in request.args and request.args['products'] != '!all':
-            try:
-                latitude = float(request.args['latitude'])
-                longitude = float(request.args['longitude'])
-            except:
-                latitude = None
-                longitude = None
+        if 'product' in request.args and request.args['product'] not in ['']:
+            product_search = request.args['product']
+            lookup["products"] = {'$in': [ObjectId(product_search)]}
 
-            if request.args['products'] not in ['', '!all']:
-                product_search = request.args['products']
-                lookup["products"] = {'$in': [ObjectId(product_search)]}
+        if 'activity' in request.args and request.args['activity'] not in ['']:
+            activity_search = request.args['activity']
+            activities_db = app.data.driver.db['activities']
+            activity_db = activities_db.find_one({'_id': ObjectId(activity_search)})
+            if activity_db:
+                lookup["products"] = {'$in': activity_db['products']}
 
+        try:
+            latitude = float(request.args['latitude'])
+            longitude = float(request.args['longitude'])
+        except:
+            latitude = None
+            longitude = None
+
+        if latitude and longitude:
             location_lookup = {'location': {"$near":
                                    {"$geometry":
                                       { "type": "Point" ,
                                         "coordinates": [latitude , longitude]},
                                      "$maxDistance": 300
                               }}}
+            # $near and $geometry don't work together
+            #lookup["location"] = location_lookup
+            stores = app.data.driver.db['stores']
+            stores_db = stores.find(location_lookup)
+            stores_ids = []
+            for store in stores_db:
+                stores_ids.append(store['_id'])
+            lookup["_id"] = {'$in': stores_ids}
 
-            if latitude and longitude:
-                # $near and $geometry don't work together
-                #lookup["location"] = location_lookup
-                stores = app.data.driver.db['stores']
-                stores_db = stores.find(location_lookup)
-                stores_ids = []
-                for store in stores_db:
-                    stores_ids.append(store['_id'])
-                lookup["_id"] = {'$in': stores_ids}
-
-            if 'place_id' in request.args:
-                lookup["place.place_id"] = request.args['place_id']
+        if 'place_id' in request.args:
+            lookup["place.place_id"] = request.args['place_id']
 
         if 'find_stores' in request.args:
             lookup["name"] = {"$regex": request.args['find_stores'], "$options": "i"}
