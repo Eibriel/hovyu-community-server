@@ -151,16 +151,16 @@ stores_schema = { # Required
             'type': 'objectid'
         }
     },
-    'products': {
-        'type': 'list',
-        'schema': {
-            'type': 'objectid',
-            'data_relation': {
-                'resource': 'products',
-                'field': '_id'
-            }
-        }
-    }
+    #'products': {
+    #    'type': 'list',
+    #    'schema': {
+    #        'type': 'objectid',
+    #        'data_relation': {
+    #            'resource': 'products',
+    #            'field': '_id'
+    #        }
+    #    }
+    #}
 }
 
 products_stores_schema = {
