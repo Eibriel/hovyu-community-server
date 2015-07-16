@@ -177,77 +177,25 @@ stores_schema = { # Required
             'type': 'dict',
             'schema': {
                 'product': {
-                    #'type': 'objectid',
                     'type': 'string',
-                    'required': True,
-                    #'data_relation': {
-                    #    'resource': 'products',
-                    #    'field': '_id'
-                    #}
                 },
                 'properties': {
                     'type': 'list',
-                    'required': True,
                     'schema': {
-                        #'type': 'objectid',
                         'type': 'string',
-                        'required': True,
-                        #'data_relation': {
-                        #    'resource': 'products_properties',
-                        #    'field': '_id'
-                        #}
                     }
                 },
                 'brand': {
                     'type': 'string',
-                    'required': True
                 },
                 'price': {
                     'type': 'string',
-                    'required': True
                 }
             }
         }
     }
 }
 
-"""products_stores_schema = {
-    'store': {
-        'type': 'objectid',
-        'required': True,
-        'data_relation': {
-            'resource': 'stores',
-            'field': '_id'
-        }
-    },
-    'product': {
-        'type': 'objectid',
-        'required': True,
-        'data_relation': {
-            'resource': 'products',
-            'field': '_id'
-        }
-    },
-    'properties': {
-        'type': 'list',
-        'required': True,
-        'schema': {
-            'type': 'objectid',
-            'data_relation': {
-                'resource': 'products_properties',
-                'field': '_id'
-            }
-        }
-    },
-    'brand': {
-        'type': 'string',
-        'required': True
-    },
-    'price': {
-        'type': 'string',
-        'required': True
-    }
-}"""
 
 products_properties_schema = {
     'name': {
@@ -525,10 +473,6 @@ products_properties = {
     'schema': products_properties_schema
 }
 
-#products_stores = {
-#    'schema': products_stores_schema
-#}
-
 attributes = {
     'schema': attributes_schema
 }
@@ -567,7 +511,6 @@ DOMAIN = {
     'stores': stores,
     'products': products,
     'products_properties': products_properties,
-    #'products_stores': products_stores,
     'attributes': attributes,
     'activities': activities,
     'payments': payments,

@@ -19,15 +19,9 @@ class Products():
                 }
                 products_documents.append(product_store)
                 print (products_documents)
-            stores_db.update({'_id': store['_id']}, {'$set': {'products_documents': products_documents}})
-                #products_stores_db = app.data.driver.db['products_stores']
-                #product_store_unique = stores_db.find( product_store )
-                #if product_store_unique.count()==0:
-                #    print ("ADD")
-                #    #r = post_internal('products_stores', product_store)
-                #    #print (r)
+            stores_db.update({'_id': store['_id']}, {'$set': {'products_properties': [], 'products_documents': products_documents}})
 
     def pre_GET_products(request, lookup):
-        #Products.convert_products()
+        Products.convert_products()
         if 'find_products' in request.args:
             lookup["name"] = {"$regex": request.args['find_products'], "$options": "i"}

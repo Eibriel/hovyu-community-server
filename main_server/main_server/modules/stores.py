@@ -93,6 +93,8 @@ class Stores():
         # TODO pymongo.GEOSPHERE
         stores.create_index([("location", "2dsphere")])
         points_of_interest = app.data.driver.db['points_of_interest']
+        products_db = app.data.driver.db['products']
+        products_properties_db = app.data.driver.db['products_properties']
         raw_payload = json.loads(payload.data.decode("utf-8"))
         #add_ids()
         items = None
@@ -109,7 +111,7 @@ class Stores():
             common_items = []
 
             for item in items:
-                #print (item)
+                # Points of interest
                 point_list = []
                 if 'location' in item and item['location']:
                     location = item['location']['coordinates']
@@ -125,6 +127,15 @@ class Stores():
                     for point in near_points:
                         point_list.append(point['name'])
                 item["near_points"] = point_list
+                # Products
+                for product in item['products_documents']:
+                    product_db = products_db.find({'_id': ObjectId(product['product'])})
+                    product['name'] = product_db[0]['name']
+                    full_name = product['name']
+                    for property_ in product['properties']:
+                        property_db = products_properties_db.find({'_id': ObjectId(property_)})
+                        full_name = "{0} {1}".format(full_name, property_db[0]['name'])
+                    product['full_name'] = full_name
                 # Score
                 if 'score' in item and item['score']['count'] > 0:
                     item['total_score'] = item['score']['sum'] / item['score']['count']
