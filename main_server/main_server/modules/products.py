@@ -22,6 +22,6 @@ class Products():
             stores_db.update({'_id': store['_id']}, {'$set': {'products_properties': [], 'products_documents': products_documents}})
 
     def pre_GET_products(request, lookup):
-        Products.convert_products()
+        #Products.convert_products()
         if 'find_products' in request.args:
             lookup["name"] = {"$regex": request.args['find_products'], "$options": "i"}
