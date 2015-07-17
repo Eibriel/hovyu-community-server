@@ -28,3 +28,6 @@ app.on_pre_GET_payments += Payments.pre_GET_payments
 
 from main_server.modules.activities import Activities
 app.on_pre_GET_activities += Activities.pre_GET_activities
+
+from main_server.modules.products_properties import ProductsProperties
+app.on_pre_GET_products_properties += ProductsProperties.pre_GET_products_properties
