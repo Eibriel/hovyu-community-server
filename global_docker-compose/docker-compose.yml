@@ -4,7 +4,12 @@ web:
      - "80:80"
     links:
      - main
-     
+
+hovyubot:
+    build: ./widu-community-telegram
+    links:
+     - main
+
 main:
     build: ./widu-community-server
     external_links:
