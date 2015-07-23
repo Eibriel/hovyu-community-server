@@ -66,20 +66,30 @@ class Stores():
             longitude = None
 
         if latitude and longitude:
-            location_lookup = {'location': {"$near":
-                                   {"$geometry":
-                                      { "type": "Point" ,
-                                        "coordinates": [latitude , longitude]},
-                                     "$maxDistance": 300
-                              }}}
-            # $near and $geometry don't work together
-            #lookup["location"] = location_lookup
-            stores = app.data.driver.db['stores']
-            stores_db = stores.find(location_lookup)
-            stores_ids = []
-            for store in stores_db:
-                stores_ids.append(store['_id'])
-            lookup["_id"] = {'$in': stores_ids}
+            max_distance = 300
+            attempts = 0
+            while 1:
+                location_lookup = {'location': {"$near":
+                                       {"$geometry":
+                                          { "type": "Point" ,
+                                            "coordinates": [latitude , longitude]},
+                                         "$maxDistance": max_distance
+                                  }}}
+                # $near and $geometry don't work together
+                #lookup["location"] = location_lookup
+                stores = app.data.driver.db['stores']
+                stores_db = stores.find(location_lookup)
+                stores_ids = []
+                for store in stores_db:
+                    stores_ids.append(store['_id'])
+                lookup["_id"] = {'$in': stores_ids}
+                if len(stores_ids) > 0:
+                    break
+                attempts = attempts + 1
+                if attempts > 2:
+                    break
+                else:
+                    max_distance = max_distance * 10
 
         if 'place_id' in request.args:
             lookup["place.place_id"] = request.args['place_id']
