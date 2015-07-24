@@ -1,4 +1,5 @@
 import json
+import math
 import random
 
 from main_server import app
@@ -27,6 +28,18 @@ def generate_ids():
         if stores == 0:
             break
     return wid, iid
+
+def haversine(origin, destination):
+    lat1, lon1 = origin
+    lat2, lon2 = destination
+    radius = 6371
+    dlat = math.radians(lat2-lat1)
+    dlon = math.radians(lon2-lon1)
+    a = math.sin(dlat/2) * math.sin(dlat/2) + math.cos(math.radians(lat1)) \
+        * math.cos(math.radians(lat2)) * math.sin(dlon/2) * math.sin(dlon/2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    d = radius * c
+    return d
 
 class Stores():
 
@@ -113,6 +126,12 @@ class Stores():
         elif raw_payload:
             items = [raw_payload]
 
+        try:
+            latitude = float(request.args['latitude'])
+            longitude = float(request.args['longitude'])
+        except:
+            latitude = None
+            longitude = None
         #if '_items' not in items:
         #    items = {'_items': [items]}
 
@@ -123,6 +142,7 @@ class Stores():
             for item in items:
                 # Points of interest
                 point_list = []
+                distance_klm = None
                 if 'location' in item and item['location']:
                     location = item['location']['coordinates']
                     lookup_ = { 'location' :
@@ -132,10 +152,13 @@ class Stores():
                                         "coordinates" : [ location[0] , location[1] ] } ,
                                      "$maxDistance" : 300
                               } } }
-
                     near_points = points_of_interest.find(lookup_)
                     for point in near_points:
                         point_list.append(point['name'])
+                    # Distance
+                    if latitude and longitude:
+                        distance_klm = haversine([latitude, longitude], location)
+                item['distance_klm'] = distance_klm
                 item["near_points"] = point_list
                 # Products
                 for product in item['products_documents']:
