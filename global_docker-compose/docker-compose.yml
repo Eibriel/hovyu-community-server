@@ -9,6 +9,8 @@ hovyubot:
     build: ./widu-community-telegram
     links:
      - main
+    external_links:
+     - mongodockercompose_db_1
 
 main:
     build: ./widu-community-server
