@@ -104,7 +104,7 @@ class Stores():
                 else:
                     max_distance = max_distance * 10
 
-        if 'place_id' in request.args:
+        if 'place_id' in request.args and request.args['place_id']!='':
             lookup["place.place_id"] = request.args['place_id']
 
         if 'find_stores' in request.args:
