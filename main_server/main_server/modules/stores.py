@@ -85,7 +85,7 @@ class Stores():
                 location_lookup = {'location': {"$near":
                                        {"$geometry":
                                           { "type": "Point" ,
-                                            "coordinates": [longitude, langitude]},
+                                            "coordinates": [longitude, longitude]},
                                          "$maxDistance": max_distance
                                   }}}
                 # $near and $geometry don't work together
