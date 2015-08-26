@@ -181,9 +181,10 @@ class Stores():
                 if 'place' not in item:
                     item['place'] = None
             
-            from operator import itemgetter
-            sorted_items = sorted(items, key=itemgetter('distance_klm')) 
-            items = sorted_items
+            if items[0]['distance_klm']:
+                from operator import itemgetter
+                sorted_items = sorted(items, key=itemgetter('distance_klm')) 
+                items = sorted_items
     
             for item in items:
                 if 'highlight' in item and item['highlight']:
