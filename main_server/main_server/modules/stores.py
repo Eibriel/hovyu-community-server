@@ -180,8 +180,9 @@ class Stores():
                 # Fix place
                 if 'place' not in item:
                     item['place'] = None
-
-            sorted_items = sorted(items, key=lambda k: k['distance_klm']) 
+            
+            from operator import itemgetter
+            sorted_items = sorted(items, key=itemgetter('distance_klm')) 
             items = sorted_items
     
             for item in items:
