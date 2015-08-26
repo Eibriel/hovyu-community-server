@@ -23,7 +23,7 @@ class Places():
                 'osm_id': osm_id,
                 'name': name,
                 'type': type_,
-                'location': {"type":"Point","coordinates":[latitude, longitude]},
+                'location': {"type":"Point","coordinates":[longitude, latitude]},
                 'is_in': {
                     'country': country,
                     'state': state,
