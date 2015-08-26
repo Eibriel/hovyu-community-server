@@ -181,6 +181,9 @@ class Stores():
                 if 'place' not in item:
                     item['place'] = None
 
+            sorted_items = sorted(items, key=lambda k: k['distance_klm']) 
+            items = sorted_items
+    
             for item in items:
                 if 'highlight' in item and item['highlight']:
                     high_items.append(item)
