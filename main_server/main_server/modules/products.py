@@ -32,10 +32,17 @@ class Products():
         products_db = app.data.driver.db['products']
         all_products = products_db.find()
         for product in all_products:
-            print (type(product['_id']))
+            pass
+            #print (type(product['_id']))
+
+        properties_db = app.data.driver.db['products_properties']
+        all_properties = properties_db.find()
+        for property_ in all_properties:
+            pass
+            #print (type(property_['_id']))
 
     def pre_GET_products(request, lookup):
         #Products.convert_products()
-        #Products.fix_products()
+        Products.fix_products()
         if 'find_products' in request.args:
             lookup["name"] = {"$regex": request.args['find_products'], "$options": "i"}
