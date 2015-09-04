@@ -101,6 +101,8 @@ class Stores():
                 attempts = attempts + 1
                 if attempts > 4:
                     break
+                elif attemps >2 and len(stores_ids) >1:
+                    break
                 else:
                     max_distance = max_distance * 10
 
@@ -183,8 +185,12 @@ class Stores():
             
             if items[0]['distance_klm']:
                 from operator import itemgetter
-                sorted_items = sorted(items, key=itemgetter('distance_klm')) 
+                for item in items: # WORKARUOUN error whe distance < 1
+                    item['distance_klm'] = item['distance_klm'] + 1.0
+                sorted_items = sorted(items, key=itemgetter('distance_klm'), reverse=True)
                 items = sorted_items
+                for item in items: # WORKARUOUN error whe distance < 1
+                    item['distance_klm'] = item['distance_klm'] - 1.0
     
             for item in items:
                 if 'highlight' in item and item['highlight']:
