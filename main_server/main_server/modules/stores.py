@@ -96,10 +96,10 @@ class Stores():
                 for store in stores_db:
                     stores_ids.append(store['_id'])
                 lookup["_id"] = {'$in': stores_ids}
-                if len(stores_ids) > 0:
+                if len(stores_ids) > 10:
                     break
                 attempts = attempts + 1
-                if attempts > 2:
+                if attempts > 4:
                     break
                 else:
                     max_distance = max_distance * 10
