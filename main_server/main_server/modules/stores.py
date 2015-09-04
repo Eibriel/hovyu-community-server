@@ -146,8 +146,8 @@ class Stores():
                 point_list = []
                 distance_klm = None
                 if 'location' in item and item['location']:
-                    """location = item['location']['coordinates']
-                    lookup_ = { 'location' :
+                    location = item['location']['coordinates']
+                    """lookup_ = { 'location' :
                                  { "$near" :
                                    { "$geometry" :
                                       { "type" : "Point" ,
