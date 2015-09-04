@@ -187,7 +187,7 @@ class Stores():
                 from operator import itemgetter
                 for item in items: # WORKARUOUN error whe distance < 1
                     item['distance_klm'] = item['distance_klm'] + 1.0
-                sorted_items = sorted(items, key=itemgetter('distance_klm'), reverse=True)
+                sorted_items = sorted(items, key=itemgetter('distance_klm'))
                 items = sorted_items
                 for item in items: # WORKARUOUN error whe distance < 1
                     item['distance_klm'] = item['distance_klm'] - 1.0
