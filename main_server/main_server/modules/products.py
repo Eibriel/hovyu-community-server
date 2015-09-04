@@ -43,6 +43,6 @@ class Products():
 
     def pre_GET_products(request, lookup):
         #Products.convert_products()
-        Products.fix_products()
+        #Products.fix_products()
         if 'find_products' in request.args:
             lookup["name"] = {"$regex": request.args['find_products'], "$options": "i"}

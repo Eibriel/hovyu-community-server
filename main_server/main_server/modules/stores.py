@@ -146,7 +146,7 @@ class Stores():
                 point_list = []
                 distance_klm = None
                 if 'location' in item and item['location']:
-                    location = item['location']['coordinates']
+                    """location = item['location']['coordinates']
                     lookup_ = { 'location' :
                                  { "$near" :
                                    { "$geometry" :
@@ -156,7 +156,7 @@ class Stores():
                               } } }
                     near_points = points_of_interest.find(lookup_)
                     for point in near_points:
-                        point_list.append(point['name'])
+                        point_list.append(point['name'])"""
                     # Distance
                     if latitude and longitude:
                         distance_klm = haversine([longitude, latitude], location)
@@ -185,11 +185,11 @@ class Stores():
             
             if items[0]['distance_klm']:
                 from operator import itemgetter
-                for item in items: # WORKARUOUND error whe distance < 1
+                for item in items: # WORKARUOUND error when distance < 1
                     item['distance_klm'] = item['distance_klm'] + 1.0
                 sorted_items = sorted(items, key=itemgetter('distance_klm'))
                 items = sorted_items
-                for item in items: # WORKARUOUD error whe distance < 1
+                for item in items: # WORKARUOUD error when distance < 1
                     item['distance_klm'] = item['distance_klm'] - 1.0
     
             for item in items:
