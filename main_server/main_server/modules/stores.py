@@ -101,7 +101,7 @@ class Stores():
                 attempts = attempts + 1
                 if attempts > 4:
                     break
-                elif attemps >2 and len(stores_ids) >1:
+                elif attempts > 2 and len(stores_ids) > 1:
                     break
                 else:
                     max_distance = max_distance * 10
