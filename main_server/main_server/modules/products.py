@@ -25,7 +25,7 @@ class Products():
         stores_db = app.data.driver.db['stores']
         all_stores = stores_db.find()
         for store in all_stores:
-            print store['products']
+            print (store['products'])
 
     def pre_GET_products(request, lookup):
         #Products.convert_products()
