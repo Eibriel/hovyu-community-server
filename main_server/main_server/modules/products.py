@@ -32,7 +32,7 @@ class Products():
         products_db = app.data.driver.db['products']
         all_products = products_db.find()
         for product in all_products:
-            print (product)
+            print (product['_id'])
 
     def pre_GET_products(request, lookup):
         #Products.convert_products()
