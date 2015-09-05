@@ -44,11 +44,15 @@ class Products():
     def remove_places():
         places_db = app.data.driver.db['places']
         #all_places = places_db.remove({})
-        places_db.repairDatabase()
+        #app.data.driver.db.repairDatabase()
+        import os
+        from pymongo import MongoClient
+        client = MongoClient(os.environ['MONGODOCKERCOMPOSE_DB_1_PORT_27017_TCP_ADDR'])
+        client.db['eve'].repairDatabase()
 
     def pre_GET_products(request, lookup):
         #Products.convert_products()
         #Products.fix_products()
-        Products.remove_places()
+        #Products.remove_places()
         if 'find_products' in request.args:
             lookup["name"] = {"$regex": request.args['find_products'], "$options": "i"}

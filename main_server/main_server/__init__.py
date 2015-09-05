@@ -5,8 +5,8 @@ from eve import Eve
 app = Eve()
 app.config.from_object('main_server.config.Config')
 
-from main_server.modules.places import Places
-app.on_pre_GET_places += Places.pre_GET_places
+#from main_server.modules.places import Places
+#app.on_pre_GET_places += Places.pre_GET_places
 
 from main_server.modules.stores import Stores
 app.on_pre_GET_stores += Stores.pre_GET_stores

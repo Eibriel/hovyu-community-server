@@ -106,9 +106,6 @@ class Stores():
                 else:
                     max_distance = max_distance * 10
 
-        #if 'place_id' in request.args and request.args['place_id']!='':
-        #    lookup["place.place_id"] = request.args['place_id']
-
         if 'find_stores' in request.args:
             lookup["name"] = {"$regex": request.args['find_stores'], "$options": "i"}
 
@@ -179,9 +176,6 @@ class Stores():
                 # Fix exact_location
                 if 'exact_location' not in item:
                     item['exact_location'] = False
-                # Fix place
-                #if 'place' not in item:
-                #    item['place'] = None
             
             if items[0]['distance_klm']:
                 from operator import itemgetter

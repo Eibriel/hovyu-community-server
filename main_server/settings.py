@@ -55,29 +55,6 @@ stores_schema = { # Required
         'type': 'point',
         'required': True
     },
-    """'place': {
-        'type': 'dict',
-        'required': True,
-        'nullable': True,
-        'schema': {
-            'place_id': {
-                'type': 'objectid',
-                'required': True
-            },
-            'osm_id': {
-                'type': 'integer',
-                'required': True
-            },
-            'full_name': {
-                'type': 'string',
-                'required': True
-            },
-            'location': {
-                'type': 'point',
-                'required': True
-            }
-        }
-    },"""
     'edit_reason': {
         'type': 'string',
         'required': True
@@ -362,73 +339,6 @@ payments_schema = {
     }
 }
 
-"""places_schema = {
-    'osm_id': {
-        'type': 'integer',
-        'required': True,
-        'unique': True
-    },
-    'name': {
-        'type': 'string',
-        'required': True
-    },
-    'type': {
-        'type': 'string',
-        'required': True,
-    },
-    'location': {
-        'type': 'point',
-        'required': True
-    },
-    'is_in': {
-        'type': 'dict',
-        'required': True,
-        'schema': {
-            'country': {
-                'type': 'string',
-                'required': True,
-                'nullable': True
-            },
-            'state': {
-                'type': 'string',
-                'required': True,
-                'nullable': True
-            },
-            'city': {
-                'type': 'string',
-                'required': True,
-                'nullable': True
-            }
-        }
-    },
-    'near_place': {
-        'type': 'dict',
-        'required': True,
-        'schema': {
-            'name': {
-                'type': 'string',
-                'required': True,
-                'nullable': True
-            },
-            'country': {
-                'type': 'string',
-                'required': True,
-                'nullable': True
-            },
-            'state': {
-                'type': 'string',
-                'required': True,
-                'nullable': True
-            },
-            'city': {
-                'type': 'string',
-                'required': True,
-                'nullable': True
-            }
-        }
-    }
-}"""
-
 tipstricks_schema = {
     'text': {
         'type': 'string',
@@ -495,10 +405,6 @@ payment_stats = {
     'item_methods': []
 }
 
-"""places = {
-    'schema': places_schema
-}"""
-
 tipstricks = {
     'schema': tipstricks_schema
 }
@@ -515,7 +421,6 @@ DOMAIN = {
     'activities': activities,
     'payments': payments,
     'payment_stats': payment_stats,
-    #'places': places,
     #
     'points_of_interest': points_of_interest,
     'tipstricks': tipstricks,
