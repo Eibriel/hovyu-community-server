@@ -55,7 +55,7 @@ stores_schema = { # Required
         'type': 'point',
         'required': True
     },
-    'place': {
+    """'place': {
         'type': 'dict',
         'required': True,
         'nullable': True,
@@ -77,7 +77,7 @@ stores_schema = { # Required
                 'required': True
             }
         }
-    },
+    },"""
     'edit_reason': {
         'type': 'string',
         'required': True
@@ -362,7 +362,7 @@ payments_schema = {
     }
 }
 
-places_schema = {
+"""places_schema = {
     'osm_id': {
         'type': 'integer',
         'required': True,
@@ -427,7 +427,7 @@ places_schema = {
             }
         }
     }
-}
+}"""
 
 tipstricks_schema = {
     'text': {
@@ -495,9 +495,9 @@ payment_stats = {
     'item_methods': []
 }
 
-places = {
+"""places = {
     'schema': places_schema
-}
+}"""
 
 tipstricks = {
     'schema': tipstricks_schema
@@ -515,7 +515,7 @@ DOMAIN = {
     'activities': activities,
     'payments': payments,
     'payment_stats': payment_stats,
-    'places': places,
+    #'places': places,
     #
     'points_of_interest': points_of_interest,
     'tipstricks': tipstricks,

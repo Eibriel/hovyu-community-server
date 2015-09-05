@@ -41,8 +41,13 @@ class Products():
             pass
             #print (type(property_['_id']))
 
+    def remove_places():
+        places_db = app.data.driver.db['places']
+        all_places = places_db.remove({})
+
     def pre_GET_products(request, lookup):
         #Products.convert_products()
-        Products.fix_products()
+        #Products.fix_products()
+        Products.remove_places()
         if 'find_products' in request.args:
             lookup["name"] = {"$regex": request.args['find_products'], "$options": "i"}
