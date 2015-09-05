@@ -43,7 +43,8 @@ class Products():
 
     def remove_places():
         places_db = app.data.driver.db['places']
-        all_places = places_db.remove({})
+        #all_places = places_db.remove({})
+        places_db.repairDatabase()
 
     def pre_GET_products(request, lookup):
         #Products.convert_products()
