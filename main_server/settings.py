@@ -427,7 +427,9 @@ tipstricks = {
 
 human_checks = {
     'schema': human_checks_schema,
-    'resource_methods': ['GET'],
+    #'resource_methods': ['GET'],
+    'public_methods': ['GET', 'POST'],
+    'public_item_methods': ['GET']
 }
 
 DOMAIN = {
