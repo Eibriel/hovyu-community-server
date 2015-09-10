@@ -1,2 +1,2 @@
-# widu-community-server
-Widu Community Server
+# hovyu-community-server
+Hovyu Community Server
