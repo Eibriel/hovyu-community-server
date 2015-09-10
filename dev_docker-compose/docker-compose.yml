@@ -1,0 +1,18 @@
+devweb:
+    build: ./widu-community-web
+    ports:
+     - "8080:80"
+    links:
+     - devmain
+
+#hovyubot:
+#    build: ./widu-community-telegram
+#    links:
+#     - main
+#    external_links:
+#     - mongodockercompose_db_1
+
+devmain:
+    build: ./widu-community-server
+    external_links:
+     - mongodockercompose_db_1

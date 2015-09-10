@@ -374,15 +374,21 @@ human_checks_schema = {
 stores = {
     # 'soft_delete': True,
     'versioning': True,
-    'schema': stores_schema
+    'schema': stores_schema,
+    'public_methods': ['GET', 'POST'],
+    'public_item_methods': ['GET', 'PATCH']
 }
 
 products = {
-    'schema': products_schema
+    'schema': products_schema,
+    'public_methods': ['GET'],
+    'public_item_methods': ['GET']
 }
 
 products_properties = {
-    'schema': products_properties_schema
+    'schema': products_properties_schema,
+    'public_methods': ['GET'],
+    'public_item_methods': ['GET']
 }
 
 attributes = {
@@ -390,15 +396,21 @@ attributes = {
 }
 
 activities = {
-    'schema': activities_schema
+    'schema': activities_schema,
+    'public_methods': ['GET'],
+    'public_item_methods': ['GET']
 }
 
 points_of_interest = {
-    'schema': points_of_interest_schema
+    'schema': points_of_interest_schema,
+    'public_methods': ['GET'],
+    'public_item_methods': ['GET']
 }
 
 payments = {
-    'schema': payments_schema
+    'schema': payments_schema,
+    'public_methods': ['GET'],
+    'public_item_methods': ['GET']
 }
 
 payment_stats = {
@@ -408,11 +420,14 @@ payment_stats = {
 }
 
 tipstricks = {
-    'schema': tipstricks_schema
+    'schema': tipstricks_schema,
+    'public_methods': ['GET'],
+    'public_item_methods': ['GET']
 }
 
 human_checks = {
-    'schema': human_checks_schema
+    'schema': human_checks_schema,
+    'resource_methods': ['GET'],
 }
 
 DOMAIN = {

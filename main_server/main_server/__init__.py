@@ -6,17 +6,17 @@ from eve.auth import BasicAuth
 #from main_server.modules.auth import MyBasicAuth
 
 
-#from main_server.config import Config
+from main_server.config import Config
+config = Config()
 class MyBasicAuth(BasicAuth):
     def check_auth(self, username, password, allowed_roles, resource, method):
-        return True
-#        if resource in ['products'] and method in ['POST', 'PATCH']:
-#            return username == 'admin' and password == Config['ADMIN_PASSWORD']
-#        else:
-#            return True
+        if resource in ['products'] and method in ['POST', 'PATCH']:
+            return username == 'a' and password == config.ADMIN_PASSWORD
+        else:
+            return True
 
-#app = Eve(auth=MyBasicAuth)
-app = Eve()
+app = Eve(auth=MyBasicAuth)
+#app = Eve()
 app.config.from_object('main_server.config.Config')
 
 #from main_server.modules.places import Places
