@@ -113,7 +113,7 @@ class Stores():
     def post_GET_stores(request, payload):
         stores = app.data.driver.db['stores']
         # TODO pymongo.GEOSPHERE
-        stores.create_index([("location", "2dsphere")])
+        #stores.create_index([("location", "2dsphere")])
         points_of_interest = app.data.driver.db['points_of_interest']
         products_db = app.data.driver.db['products']
         products_properties_db = app.data.driver.db['products_properties']
@@ -176,6 +176,9 @@ class Stores():
                 # Fix exact_location
                 if 'exact_location' not in item:
                     item['exact_location'] = False
+                # Views
+                if 'inc_views' in request.args:
+                    stores.update({ "_id": ObjectId(item["_id"]) }, { "$inc": { "views": 1} })
             
             if items[0]['distance_klm']:
                 from operator import itemgetter

@@ -2,6 +2,7 @@ from main_server.config.default import Config
 
 class Local(Config):
     DEBUG = False
+    ADMIN_PASSWORD = ''
 
     PAYMENT_SMTP_SERVER = ''
     PAYMENT_MAIL_FROM = ''

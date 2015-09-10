@@ -50,9 +50,15 @@ class Products():
         client = MongoClient(os.environ['MONGODOCKERCOMPOSE_DB_1_PORT_27017_TCP_ADDR'])
         client.db['eve'].repairDatabase()
 
+#    def pre_POST_products(request):
+#        if request.args['admin_password'] != app.config['ADMIN_PASSWORD']:
+#            abort(403)
+#        del request.args['admin_password']
+
     def pre_GET_products(request, lookup):
         #Products.convert_products()
         #Products.fix_products()
         #Products.remove_places()
+
         if 'find_products' in request.args:
             lookup["name"] = {"$regex": request.args['find_products'], "$options": "i"}

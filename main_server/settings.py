@@ -3,6 +3,7 @@ import os
 RESOURCE_METHODS = ['GET', 'POST', 'DELETE']
 ITEM_METHODS = ['GET', 'PUT', 'DELETE', 'PATCH']
 XML = False
+PAGINATION = False
 # VERSIONING = True
 
 try:
@@ -27,7 +28,8 @@ stores_schema = { # Required
     'views': {
         'type': 'integer',
         'required': True,
-        'default': 0
+        'default': 0,
+        #'versioned': False
     },
     'score': {
         'type': 'dict',
