@@ -27,6 +27,9 @@ app.on_pre_GET_stores += Stores.pre_GET_stores
 app.on_post_GET_stores += Stores.post_GET_stores
 app.on_insert_stores += Stores.on_insert_stores
 
+from main_server.modules.store_stats import Store_stats
+app.on_post_GET_store_stats += Store_stats.post_GET_store_stats
+
 from main_server.modules.products import Products
 app.on_pre_GET_products += Products.pre_GET_products
 

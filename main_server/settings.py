@@ -379,6 +379,14 @@ stores = {
     'public_item_methods': ['GET', 'PATCH']
 }
 
+store_stats = {
+    #'schema': {},
+    'resource_methods': ['GET'],
+    'item_methods': [],
+    'public_methods': ['GET'],
+    'public_item_methods': ['GET']
+}
+
 products = {
     'schema': products_schema,
     'public_methods': ['GET'],
@@ -434,6 +442,7 @@ human_checks = {
 
 DOMAIN = {
     'stores': stores,
+    'store_stats': store_stats,
     'products': products,
     'products_properties': products_properties,
     'attributes': attributes,
