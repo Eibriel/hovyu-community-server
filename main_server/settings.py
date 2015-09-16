@@ -61,12 +61,36 @@ stores_schema = { # Required
         'type': 'string',
         'required': True
     }, # Optional
+    'avatar_picture': {
+        'type': 'objectid',
+        'nullable': True
+    },
+    'main_picture': {
+        'type': 'objectid',
+        'nullable': True
+    },
+    'client_pictures': {
+        'type': 'list',
+        'schema': {
+            'type': 'objectid',
+            'data_relation': {
+                'resource': 'client_pictures',
+                'field': '_id'
+            }
+        }
+    },
     'highlight': {
         'type': 'boolean',
         'default': False
     },
     'description': {
         'type': 'string'
+    },
+    'process_description': {
+        'type': 'string'
+    },
+    'process_picture': {
+        'type': 'media',
     },
     'address': {
         'type': 'string'
@@ -371,6 +395,29 @@ human_checks_schema = {
     }
 }
 
+client_pictures_schema = {
+    'name': {
+        'type': 'string',
+        #'required': True
+    },
+    'picture_binary': {
+        'type': 'media',
+        #'required': True
+    },
+    'approved': {
+        'type': 'boolean',
+        'default': False
+    },
+    'admin_comments': {
+        'type': 'string',
+        'default': ''
+    },
+    'score': {
+        'type': 'integer',
+        'default': 0
+    }
+}
+
 stores = {
     # 'soft_delete': True,
     'versioning': True,
@@ -440,6 +487,13 @@ human_checks = {
     'public_item_methods': ['GET']
 }
 
+client_pictures = {
+    'schema': client_pictures_schema,
+    #'resource_methods': ['GET'],
+    'public_methods': ['GET', 'POST'],
+    'public_item_methods': ['GET']
+}
+
 DOMAIN = {
     'stores': stores,
     'store_stats': store_stats,
@@ -449,6 +503,7 @@ DOMAIN = {
     'activities': activities,
     'payments': payments,
     'payment_stats': payment_stats,
+    'client_pictures': client_pictures,
     #
     'points_of_interest': points_of_interest,
     'tipstricks': tipstricks,

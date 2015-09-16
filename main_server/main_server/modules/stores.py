@@ -176,6 +176,9 @@ class Stores():
                 # Fix exact_location
                 if 'exact_location' not in item:
                     item['exact_location'] = False
+                # Fix client_pictures
+                if 'client_pictures' not in item:
+                    item['client_pictures'] = []
                 # Views
                 if 'inc_views' in request.args:
                     stores.update({ "_id": ObjectId(item["_id"]) }, { "$inc": { "views": 1} })
