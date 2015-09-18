@@ -4,6 +4,7 @@ RESOURCE_METHODS = ['GET', 'POST', 'DELETE']
 ITEM_METHODS = ['GET', 'PUT', 'DELETE', 'PATCH']
 XML = False
 PAGINATION = False
+EXTENDED_MEDIA_INFO = ['content_type']
 # VERSIONING = True
 
 try:
@@ -399,6 +400,11 @@ client_pictures_schema = {
     'name': {
         'type': 'string',
         #'required': True
+        'default': ''
+    },
+    'store_id': {
+        'type': 'string',
+        'default': ''
     },
     'picture_binary': {
         'type': 'media',

@@ -10,7 +10,7 @@ from main_server.config import Config
 config = Config()
 class MyBasicAuth(BasicAuth):
     def check_auth(self, username, password, allowed_roles, resource, method):
-        if resource in ['products'] and method in ['POST', 'PATCH']:
+        if resource in ['products', 'client_pictures'] and method in ['POST', 'PATCH']:
             return username == 'a' and password == config.ADMIN_PASSWORD
         else:
             return True
