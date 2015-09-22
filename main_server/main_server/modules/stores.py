@@ -179,6 +179,9 @@ class Stores():
                 # Fix client_pictures
                 if 'client_pictures' not in item:
                     item['client_pictures'] = []
+                # Fix process description
+                if 'process_description' not in item:
+                    item['process_description'] = ""
                 # Views
                 if 'inc_views' in request.args:
                     stores.update({ "_id": ObjectId(item["_id"]) }, { "$inc": { "views": 1} })
