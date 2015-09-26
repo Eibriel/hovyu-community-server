@@ -62,7 +62,7 @@ stores_schema = { # Required
         'type': 'string',
         'required': True
     }, # Optional
-    'avatar_picture': {
+    'logo_picture': {
         'type': 'objectid',
         'nullable': True
     },
@@ -424,6 +424,20 @@ client_pictures_schema = {
     }
 }
 
+logo_pictures_schema = {
+    'picture_binary': {
+        'type': 'media',
+    },
+    'approved': {
+        'type': 'boolean',
+        'default': False
+    },
+    'admin_comments': {
+        'type': 'string',
+        'default': ''
+    }
+}
+
 stores = {
     # 'soft_delete': True,
     'versioning': True,
@@ -500,6 +514,13 @@ client_pictures = {
     'public_item_methods': ['GET']
 }
 
+logo_pictures = {
+    'schema': logo_pictures_schema,
+    #'resource_methods': ['GET'],
+    'public_methods': ['GET', 'POST'],
+    'public_item_methods': ['GET']
+}
+
 DOMAIN = {
     'stores': stores,
     'store_stats': store_stats,
@@ -510,6 +531,7 @@ DOMAIN = {
     'payments': payments,
     'payment_stats': payment_stats,
     'client_pictures': client_pictures,
+    'logo_pictures': logo_pictures,
     #
     'points_of_interest': points_of_interest,
     'tipstricks': tipstricks,
