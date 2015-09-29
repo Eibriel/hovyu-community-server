@@ -213,6 +213,10 @@ products_schema = {
     'name': {
         'type': 'string',
         'required': True
+    },
+    'use_count': {
+        'type': 'integer',
+        'default': 0
     }
 }
 

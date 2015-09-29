@@ -1,3 +1,5 @@
+import json
+
 from main_server import app
 
 from bson import ObjectId
@@ -62,3 +64,18 @@ class Products():
 
         if 'find_products' in request.args:
             lookup["name"] = {"$regex": request.args['find_products'], "$options": "i"}
+
+    def post_GET_products(request, payload):
+        products = app.data.driver.db['products']
+        raw_payload = json.loads(payload.data.decode("utf-8"))
+        #add_ids()
+        items = None
+        if '_items' in raw_payload:
+            items = raw_payload.get('_items')
+        elif raw_payload:
+            items = [raw_payload]
+        if items:
+            for item in items:
+                if 'inc_count' in request.args:
+                    products.update({ "_id": ObjectId(item["_id"]) }, { "$inc": { "use_count": 1} })
+

@@ -163,11 +163,11 @@ class Stores():
                 for product in item['products_documents']:
                     product_db = products_db.find({'_id': ObjectId(product['product'])})
                     product['name'] = product_db[0]['name']
-                    full_name = product['name']
+                    properties_name = product['name']
                     for property_ in product['properties']:
                         property_db = products_properties_db.find({'_id': ObjectId(property_)})
-                        full_name = "{0} {1}".format(full_name, property_db[0]['name'])
-                    product['full_name'] = full_name
+                        properties_name = "{0} {1}".format(properties_name, property_db[0]['name'])
+                    product['properties_name'] = properties_name
                 # Score
                 if 'score' in item and item['score']['count'] > 0:
                     item['total_score'] = item['score']['sum'] / item['score']['count']

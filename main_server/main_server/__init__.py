@@ -32,6 +32,7 @@ app.on_post_GET_store_stats += Store_stats.post_GET_store_stats
 
 from main_server.modules.products import Products
 app.on_pre_GET_products += Products.pre_GET_products
+app.on_post_GET_products += Products.post_GET_products
 
 from main_server.modules.points_of_interest import Points_of_interest
 app.on_pre_GET_points_of_interest += Points_of_interest.pre_GET_points_of_interest
