@@ -163,7 +163,8 @@ class Stores():
                 for product in item['products_documents']:
                     product_db = products_db.find({'_id': ObjectId(product['product'])})
                     product['name'] = product_db[0]['name']
-                    properties_name = product['name']
+                    #properties_name = product['name']
+                    properties_name = ''
                     for property_ in product['properties']:
                         property_db = products_properties_db.find({'_id': ObjectId(property_)})
                         properties_name = "{0} {1}".format(properties_name, property_db[0]['name'])
