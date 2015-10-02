@@ -90,9 +90,9 @@ stores_schema = { # Required
     'process_description': {
         'type': 'string'
     },
-    'process_picture': {
-        'type': 'media',
-    },
+    #'process_picture': {
+    #    'type': 'media',
+    #},
     'address': {
         'type': 'string'
     },
@@ -425,6 +425,11 @@ client_pictures_schema = {
     'score': {
         'type': 'integer',
         'default': 0
+    },
+    'album': {
+        'type': 'string',
+        'allowed': ['client',
+                    'process']
     }
 }
 
