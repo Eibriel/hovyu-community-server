@@ -447,6 +447,43 @@ logo_pictures_schema = {
     }
 }
 
+
+access_log_schema = {
+    'page': {
+        'type': 'string'
+    },
+    'ip_md5': {
+        'type': 'string'
+    },
+    'useragent': {
+        'type': 'string'
+    },
+    'useragent_platform': {
+        'type': 'string',
+        'nullable': True
+    },
+    'useragent_browser': {
+        'type': 'string',
+        'nullable': True
+    },
+    'useragent_version': {
+        'type': 'string',
+        'nullable': True
+    },
+    'useragent_language': {
+        'type': 'string',
+        'nullable': True
+    },
+    'acceptlanguage': {
+        'type': 'string'
+    },
+    'referrer': {
+        'type': 'string',
+        'nullable': True
+    }
+}
+
+
 stores = {
     # 'soft_delete': True,
     'versioning': True,
@@ -530,6 +567,12 @@ logo_pictures = {
     'public_item_methods': ['GET']
 }
 
+access_log = {
+    'schema': access_log_schema,
+    'public_methods': ['GET', 'POST'],
+    'public_item_methods': ['GET', 'PATCH']
+}
+
 DOMAIN = {
     'stores': stores,
     'store_stats': store_stats,
@@ -544,5 +587,7 @@ DOMAIN = {
     #
     'points_of_interest': points_of_interest,
     'tipstricks': tipstricks,
-    'human_checks': human_checks
+    'human_checks': human_checks,
+    #
+    'access_log': access_log
 }
