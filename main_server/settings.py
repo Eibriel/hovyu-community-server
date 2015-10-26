@@ -477,6 +477,12 @@ access_log_schema = {
     'acceptlanguage': {
         'type': 'string'
     },
+    'robot': {
+        'type': 'boolean'
+    },
+    'harmful': {
+        'type': 'boolean'
+    },
     'referrer': {
         'type': 'string',
         'nullable': True
