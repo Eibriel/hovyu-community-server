@@ -290,14 +290,23 @@ payments_schema = {
     'sandbox_pay_link': {
         'type': 'string',
     },
-    'product': {
+    #'product': {
+    #    'type': 'string',
+    #},
+    'completion_date': {
+       'type': 'datetime',
+       'nullable': True
+    },
+    #'end_date': {
+    #   'type': 'datetime',
+    #},
+    'badge': {
         'type': 'string',
+        'required': True
     },
-    'start_date': {
-        'type': 'datetime',
-    },
-    'end_date': {
-        'type': 'datetime',
+    'months': {
+        'type': 'number',
+        'required': True
     },
     'store_id': {
         'type': 'objectid',
@@ -306,19 +315,27 @@ payments_schema = {
     'store_iid': {
         'type': 'integer'
     },
+    'badge_store': {
+        'type': 'objectid',
+        'nullable': True,
+        'data_relation': {
+            'resource': 'badge_store',
+            'field': '_id'
+        }
+    },
     'currency': {
         'type': 'string',
         'allowed': ['ar', 'usd', 'btc']
     },
     'amount': {
-        'type': 'integer',
+        'type': 'integer'
     },
     'real_amount': {
         'type': 'integer'
     },
-    'day_cost': {
-        'type': 'integer',
-    },
+    #'day_cost': {
+    #     'type': 'integer',
+    #},
     'completed': {
         'type': 'boolean',
         'required': True
@@ -370,6 +387,43 @@ payments_schema = {
     }
 }
 
+badge_store_schema = {
+    'store': {
+        'type': 'objectid',
+        'required': True,
+        'data_relation': {
+            'resource': 'stores',
+            'field': '_id'
+        }
+    },
+    'badge': {
+        'type': 'string',
+        'required': True,
+        'allowed': ['recycling',
+                    'clean_energy',
+                    'organic',
+                    'vegan',
+                    'kosher',
+                    'gluten_free',
+                    'cruelty_free',
+                    'free_software',
+                    'free_hardware',
+                    'creative_commons']
+    },
+    'start_date': {
+        'type': 'datetime',
+        'required': True
+    },
+    'end_date': {
+        'type': 'datetime',
+        'required': True
+    },
+    'paused': {
+        'type': 'boolean',
+        'default': False
+    }
+}
+
 tipstricks_schema = {
     'text': {
         'type': 'string',
@@ -403,7 +457,7 @@ human_checks_schema = {
 client_pictures_schema = {
     'name': {
         'type': 'string',
-        #'required': True
+        #'required': True,
         'default': ''
     },
     'store_id': {
@@ -536,14 +590,21 @@ points_of_interest = {
 
 payments = {
     'schema': payments_schema,
-    'public_methods': ['GET'],
+    'public_methods': ['GET', 'POST'],
     'public_item_methods': ['GET']
 }
 
 payment_stats = {
     #'schema': {},
+    'public_methods': ['GET'],
     'resource_methods': ['GET'],
     'item_methods': []
+}
+
+badge_store = {
+    'schema': badge_store_schema,
+    'public_methods': ['GET'],
+    'public_item_methods': ['GET']
 }
 
 tipstricks = {
@@ -588,6 +649,7 @@ DOMAIN = {
     'activities': activities,
     'payments': payments,
     'payment_stats': payment_stats,
+    'badge_store': badge_store,
     'client_pictures': client_pictures,
     'logo_pictures': logo_pictures,
     #

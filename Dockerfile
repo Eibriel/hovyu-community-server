@@ -2,11 +2,11 @@ FROM grahamdumpleton/mod-wsgi-docker:python-3.4
 
 WORKDIR /app
 
-RUN pip install Flask
-RUN pip install eve
-RUN pip install requests
+RUN pip install babel
 
 COPY . /app
+
+RUN pybabel compile -d main_server/main_server/translations
 
 RUN mod_wsgi-docker-build
 

@@ -6,6 +6,7 @@ docker run -d -p 27017:27017 --name some-mongo mongo
 Development
 ==========
 
+docker run --name some-mongo -d mongo
 docker start some-mongo
 
 docker build -t widudev_devmain:latest .
@@ -18,6 +19,10 @@ docker start widudev_devweb_1
 
 Production
 =========
+
+docker build -t widu_main:latest .
+docker create --link=mongodockercompose_db_1:mongodockercompose_db_1 -l widu_main_1 --name=widu_main_1 widu_main:latest
+docker start widu_main_1
 
 docker build -t widu_web:latest .
 docker create --link=widu_main_1:widu_main_1 -l widu_web_1 --name=widu_web_1 -p=80:80 widu_web:latest

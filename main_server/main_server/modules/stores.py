@@ -6,6 +6,7 @@ from main_server import app
 
 from bson import ObjectId
 
+from datetime import datetime
 
 wid_chars = [ 0x1f31e, 0x1f33d, 0x1f34e, 0x1f433, 0x1f427,
               0x1f525, 0x2744,  0x2764,  0x1f332, 0x1f343,
@@ -114,7 +115,8 @@ class Stores():
         stores = app.data.driver.db['stores']
         # TODO pymongo.GEOSPHERE
         #stores.create_index([("location", "2dsphere")])
-        points_of_interest = app.data.driver.db['points_of_interest']
+        #points_of_interest = app.data.driver.db['points_of_interest']
+        badge_store_db = app.data.driver.db['badge_store']
         products_db = app.data.driver.db['products']
         products_properties_db = app.data.driver.db['products_properties']
         raw_payload = json.loads(payload.data.decode("utf-8"))
@@ -186,19 +188,28 @@ class Stores():
                 # Views
                 if 'inc_views' in request.args:
                     stores.update({ "_id": ObjectId(item["_id"]) }, { "$inc": { "views": 1} })
-            
+                # Badges
+                badge_store = badge_store_db.find({
+                                        'store': ObjectId(item['_id']),
+                                        'end_date': {'$gte': datetime.now()}
+                                    })
+                item['badges'] = []
+                for badge in badge_store:
+                    print (badge)
+                    item['badges'].append( badge['badge'] )
+
             if items[0]['distance_klm']:
                 from operator import itemgetter
                 sorted_items = sorted(items, key=itemgetter('distance_klm'))
                 items = sorted_items
-    
-            for item in items:
-                if 'highlight' in item and item['highlight']:
-                    high_items.append(item)
-                else:
-                    common_items.append(item)
 
-            items = high_items+common_items
+            #for item in items:
+            #    if 'highlight' in item and item['highlight']:
+            #        high_items.append(item)
+            #    else:
+            #        common_items.append(item)
+
+            #items = high_items+common_items
 
             raw_payload = {'_items': items}
             payload.set_data(json.dumps(raw_payload).encode('utf-8'))
